@@ -1,0 +1,46 @@
+import React from 'react';
+import { TouchableOpacity, Text, StyleSheet, ViewStyle } from 'react-native';
+import { COLORS, FONT_SIZES } from '../../../constants/index';
+
+export interface SkipButtonProps {
+  onPress: () => void;
+  style?: ViewStyle;
+  text?: string;
+}
+
+const SkipButton: React.FC<SkipButtonProps> = ({
+  onPress,
+  style,
+  text = 'skip'
+}) => {
+  return (
+    <TouchableOpacity
+      style={[styles.skipButton, style]}
+      onPress={onPress}
+      activeOpacity={0.7}
+    >
+      <Text style={styles.skipButtonText}>{text}</Text>
+    </TouchableOpacity>
+  );
+};
+
+const styles = StyleSheet.create({
+  skipButton: {
+    width: 86,
+    height: 38,
+    backgroundColor: '#DFDFDF',
+    borderRadius: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+    opacity: 1,
+  },
+  skipButtonText: {
+    color: '#666666',
+    fontSize: FONT_SIZES.sm,
+    fontWeight: '500',
+    textTransform: 'lowercase',
+    textAlign: 'center',
+  },
+});
+
+export default SkipButton;
