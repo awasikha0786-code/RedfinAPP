@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { View, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { CommonActions } from '@react-navigation/native';
 import { Button, Text, Icon } from '../../../components/common';
 import { OTPInput } from '../../../components/authentication';
 
@@ -26,9 +27,14 @@ const OTPScreen = ({ navigation }) => {
   }, [secondsLeft]);
 
   const handleVerify = () => {
-    if (!isFilled) return;
-    // Navigate to main stack after OTP verification
-    navigation.navigate('MainStack');
+    // Navigate to MainStack (Home Screen) after OTP verification
+    // Get root navigator to navigate between AuthStack and MainStack
+    navigation.getParent()?.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{ name: 'MainStack' }],
+      })
+    );
   };
 
   const handleBack = () => {

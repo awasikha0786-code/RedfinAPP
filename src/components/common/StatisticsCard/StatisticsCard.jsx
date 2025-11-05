@@ -1,0 +1,43 @@
+import React from 'react';
+import { View, StyleSheet, Text } from 'react-native';
+
+const StatisticsCard = ({ value, label }) => {
+  return (
+    <View style={styles.card}>
+      <Text style={styles.value}>{value}</Text>
+      <Text style={styles.label}>{label}</Text>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  card: {
+    backgroundColor: '#FFFFFF',
+    width: 102.33,
+    height: 70,
+    borderRadius: 18,
+    paddingVertical: 20,
+    paddingHorizontal: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginHorizontal: 6,
+    borderWidth: 1,
+    borderColor: '#F5F4F8',
+    opacity: 1,
+    transform: [{ rotate: '0deg' }],
+  },
+  value: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: '#14233A',
+    marginBottom: 4,
+  },
+  label: {
+    fontSize: 14,
+    fontWeight: '500',
+    color: '#14233A',
+  },
+});
+
+export default StatisticsCard;
+

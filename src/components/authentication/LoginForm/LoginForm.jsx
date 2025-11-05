@@ -1,56 +1,30 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { CommonActions } from '@react-navigation/native';
 import { Button, Text, Input } from '../../common/index.js';
 import { Icon } from '../../common/index.js';
 
 const LoginForm = ({ navigation, style }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errors, setErrors] = useState({
-    email: '',
-    password: '',
-  });
-
-  const validate = () => {
-    const newErrors = { email: '', password: '' };
-    const emailRegex = /^\S+@\S+\.[A-Za-z]{2,}$/;
-
-    if (!email.trim()) {
-      newErrors.email = 'Email is required';
-    } else if (!emailRegex.test(email.trim())) {
-      newErrors.email = 'Enter a valid email address';
-    }
-
-    if (!password) {
-      newErrors.password = 'Password is required';
-    } else if (password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters';
-    }
-
-    setErrors(newErrors);
-    return !newErrors.email && !newErrors.password;
-  };
+  // Validation removed per request
 
   const handleEmailChange = (value) => {
     setEmail(value);
-    if (errors.email) {
-      setErrors(prev => ({ ...prev, email: '' }));
-    }
   };
 
   const handlePasswordChange = (value) => {
     setPassword(value);
-    if (errors.password) {
-      setErrors(prev => ({ ...prev, password: '' }));
-    }
   };
 
   const handleLogin = () => {
-    if (!validate()) {
-      return;
-    }
-    // Navigate to main stack after successful login
-    navigation.navigate('MainStack');
+    // Navigate directly to MainStack (Home Screen) after login
+    navigation.getParent()?.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{ name: 'MainStack' }],
+      })
+    );
   };
 
   return (
@@ -73,9 +47,9 @@ const LoginForm = ({ navigation, style }) => {
         icon="envelope"
         keyboardType="email-address"
         autoCapitalize="none"
-        style={[styles.input, errors.email ? styles.inputError : null]}
+        style={styles.input}
       />
-      {errors.email ? <Text style={styles.errorText}>{errors.email}</Text> : null}
+      
 
       {/* Password Input */}
       <Input
@@ -85,9 +59,9 @@ const LoginForm = ({ navigation, style }) => {
         icon="padlock"
         secureTextEntry
         showPasswordToggle
-        style={[styles.input, errors.password ? styles.inputError : null]}
+        style={styles.input}
       />
-      {errors.password ? <Text style={styles.errorText}>{errors.password}</Text> : null}
+      
 
       {/* Password Options */}
       <View style={styles.passwordOptions}>
@@ -132,15 +106,7 @@ const styles = StyleSheet.create({
   input: {
     marginBottom: 16,
   },
-  inputError: {
-    borderColor: '#DE3341',
-  },
-  errorText: {
-    color: '#DE3341',
-    marginTop: -12,
-    marginBottom: 12,
-    fontSize: 12,
-  },
+  
   passwordOptions: {
     flexDirection: 'row',
     justifyContent: 'space-between',

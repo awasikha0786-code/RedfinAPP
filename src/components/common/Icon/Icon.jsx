@@ -26,6 +26,8 @@ const Icon = ({ name, style, size = 24, color = '#21628A' }) => {
         return require('../../../assets/icons/Timer.png');
       case 'splash':
         return require('../../../assets/icons/splash_icon.png');
+      case 'phone':
+        return require('../../../assets/icons/Call.png');
       default:
         return require('../../../assets/icons/arrow.png');
     }

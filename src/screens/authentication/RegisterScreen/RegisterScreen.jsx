@@ -9,52 +9,19 @@ const RegisterScreen = ({ navigation, style }) => {
     email: '',
     password: '',
   });
-  const [errors, setErrors] = useState({
-    fullName: '',
-    email: '',
-    password: '',
-  });
+  // Validation removed per request
 
   const handleInputChange = (field, value) => {
     setFormData(prev => ({
       ...prev,
       [field]: value
     }));
-    // Clear error on change for the given field
-    setErrors(prev => ({ ...prev, [field]: '' }));
   };
 
-  const validate = () => {
-    const newErrors = { fullName: '', email: '', password: '' };
-    const emailRegex = /^\S+@\S+\.[A-Za-z]{2,}$/;
-
-    if (!formData.fullName.trim()) {
-      newErrors.fullName = 'Full name is required';
-    } else if (formData.fullName.trim().length < 3) {
-      newErrors.fullName = 'Full name must be at least 3 characters';
-    }
-
-    if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
-    } else if (!emailRegex.test(formData.email.trim())) {
-      newErrors.email = 'Enter a valid email address';
-    }
-
-    if (!formData.password) {
-      newErrors.password = 'Password is required';
-    } else if (formData.password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters';
-    }
-
-    setErrors(newErrors);
-    return !newErrors.fullName && !newErrors.email && !newErrors.password;
-  };
+  // validate removed
 
   const handleRegister = () => {
-    if (!validate()) {
-      return;
-    }
-    // Navigate to OTP screen after successful registration
+    // Directly navigate to OTP screen without validation
     navigation.navigate('OTP');
   };
 
@@ -92,9 +59,9 @@ const RegisterScreen = ({ navigation, style }) => {
             value={formData.fullName}
             onChangeText={(value) => handleInputChange('fullName', value)}
             icon="user"
-            style={[styles.input, errors.fullName ? styles.inputError : null]}
+            style={styles.input}
           />
-          {errors.fullName ? <Text style={styles.errorText}>{errors.fullName}</Text> : null}
+          
 
           {/* Email Input */}
           <Input
@@ -104,9 +71,9 @@ const RegisterScreen = ({ navigation, style }) => {
             icon="envelope"
             keyboardType="email-address"
             autoCapitalize="none"
-            style={[styles.input, errors.email ? styles.inputError : null]}
+            style={styles.input}
           />
-          {errors.email ? <Text style={styles.errorText}>{errors.email}</Text> : null}
+          
 
           {/* Password Input */}
           <Input
@@ -116,9 +83,9 @@ const RegisterScreen = ({ navigation, style }) => {
             icon="padlock"
             secureTextEntry
             showPasswordToggle
-            style={[styles.input, errors.password ? styles.inputError : null]}
+            style={styles.input}
           />
-          {errors.password ? <Text style={styles.errorText}>{errors.password}</Text> : null}
+          
 
           {/* Action Links */}
           <View style={styles.actionLinks}>
@@ -195,15 +162,7 @@ const styles = StyleSheet.create({
   input: {
     marginBottom: 20,
   },
-  inputError: {
-    borderColor: '#DE3341',
-  },
-  errorText: {
-    color: '#DE3341',
-    marginTop: -12,
-    marginBottom: 12,
-    fontSize: 12,
-  },
+  
   actionLinks: {
     flexDirection: 'row',
     justifyContent: 'space-between',
