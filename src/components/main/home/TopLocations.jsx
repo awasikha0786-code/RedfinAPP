@@ -41,10 +41,11 @@ const TopLocations = ({ navigation }) => {
 				{locations.map((location) => (
 					<TouchableOpacity 
 						key={location.id} 
-						style={styles.locationItem}
+					style={styles.locationItem}
 						activeOpacity={0.8}
 						onPress={handleLocationPress}
 					>
+					<View style={styles.cardContainer}>
 						<View style={styles.avatarContainer}>
 							<Image 
 								source={location.image} 
@@ -53,6 +54,7 @@ const TopLocations = ({ navigation }) => {
 							/>
 						</View>
 						<Text style={styles.locationText}>{location.name}</Text>
+					</View>
 					</TouchableOpacity>
 				))}
 			</ScrollView>
@@ -77,23 +79,25 @@ const styles = StyleSheet.create({
 		paddingRight: 16,
 	},
 	locationItem: {
-		alignItems: 'center',
 		marginRight: 16,
 	},
+	cardContainer: {
+		width: 108,
+		height: 56,
+		borderRadius: 50,
+		backgroundColor: '#F5F4F8',
+		paddingVertical: 8,
+		paddingHorizontal: 8,
+		flexDirection: 'row',
+		alignItems: 'center',
+		gap: 15,
+	},
 	avatarContainer: {
-		width: 70,
-		height: 70,
-		borderRadius: 35,
+		width: 40,
+		height: 40,
+		borderRadius: 20,
 		overflow: 'hidden',
 		backgroundColor: '#F3F4F6',
-		marginBottom: 8,
-		borderWidth: 2,
-		borderColor: '#E0E0E0',
-		elevation: 2,
-		shadowColor: '#000',
-		shadowOffset: { width: 0, height: 2 },
-		shadowOpacity: 0.1,
-		shadowRadius: 3,
 	},
 	avatarImage: {
 		width: '100%',

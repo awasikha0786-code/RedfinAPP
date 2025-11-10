@@ -11,3 +11,4 @@ export { default as StatisticsCard } from './StatisticsCard/StatisticsCard';
 export { default as TransactionPropertyCard } from './TransactionPropertyCard/TransactionPropertyCard';
 export { default as SocialLinkButton } from './SocialLinkButton/SocialLinkButton';
 export { default as ScreenHeader } from './ScreenHeader/ScreenHeader';
+export { default as SelectablePill } from './SelectablePill';

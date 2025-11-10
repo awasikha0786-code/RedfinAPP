@@ -7,6 +7,7 @@ export interface ButtonProps {
   onPress: () => void;
   style?: ViewStyle;
   textStyle?: TextStyle;
+  leftIcon?: React.ReactNode;
   disabled?: boolean;
   activeOpacity?: number;
 }
@@ -16,6 +17,7 @@ const Button: React.FC<ButtonProps> = ({
   onPress,
   style,
   textStyle,
+  leftIcon,
   disabled = false,
   activeOpacity = 0.8,
 }) => {
@@ -26,6 +28,7 @@ const Button: React.FC<ButtonProps> = ({
       activeOpacity={activeOpacity}
       disabled={disabled}
     >
+      {leftIcon && <>{leftIcon}</>}
       <Text style={[styles.buttonText, textStyle]}>{title}</Text>
     </TouchableOpacity>
   );
@@ -35,6 +38,8 @@ const styles = StyleSheet.create({
   button: {
     justifyContent: 'center',
     alignItems: 'center',
+    flexDirection: 'row',
+    columnGap: 8,
     borderRadius: 10,
     backgroundColor: COLORS.primary,
     paddingHorizontal: 16,

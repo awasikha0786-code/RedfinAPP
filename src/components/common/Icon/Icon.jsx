@@ -28,6 +28,14 @@ const Icon = ({ name, style, size = 24, color = '#21628A' }) => {
         return require('../../../assets/icons/splash_icon.png');
       case 'phone':
         return require('../../../assets/icons/Call.png');
+      case 'calendar':
+        return require('../../../assets/icons/Calendar.png');
+      case 'home':
+        return require('../../../assets/icons/Home.png');
+      case 'location':
+        return require('../../../assets/icons/Location.png');
+      case 'card':
+        return require('../../../assets/icons/Wallet.png');
       default:
         return require('../../../assets/icons/arrow.png');
     }

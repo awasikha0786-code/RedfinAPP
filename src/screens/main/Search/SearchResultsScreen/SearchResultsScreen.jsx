@@ -86,11 +86,22 @@ const SearchResultsScreen = ({ navigation, route }) => {
 	};
 
 	const handleMapPress = () => {
+		console.log('Map button pressed, filtered properties:', filteredProperties.length);
 		// Navigate to MapScreen with filtered properties
-		navigation.navigate('Map', {
-			properties: filteredProperties,
-			searchQuery: searchQuery,
-		});
+		const parentNav = navigation.getParent();
+		if (parentNav) {
+			console.log('Navigating via parent navigation');
+			parentNav.navigate('Map', {
+				properties: filteredProperties,
+				searchQuery: searchQuery,
+			});
+		} else {
+			console.log('Navigating via direct navigation');
+			navigation.navigate('Map', {
+				properties: filteredProperties,
+				searchQuery: searchQuery,
+			});
+		}
 	};
 
 	const handleSearch = () => {

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Image, ScrollView, Dimensions, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import ScreenHeader from '../../../components/common/ScreenHeader/ScreenHeader';
-import Input from '../../../components/common/Input/Input';
-import SocialLinkButton from '../../../components/common/SocialLinkButton/SocialLinkButton';
-import Button from '../../../components/common/Button/Button';
-import OTPVerificationBottomSheet from '../../../components/common/buttomSheet/OTPVerificationBottomSheet';
+import ScreenHeader from '../../../../components/common/ScreenHeader/ScreenHeader';
+import Input from '../../../../components/common/Input/Input';
+import SocialLinkButton from '../../../../components/common/SocialLinkButton/SocialLinkButton';
+import Button from '../../../../components/common/Button/Button';
+import OTPVerificationBottomSheet from '../../../../components/common/buttomSheet/OTPVerificationBottomSheet';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
@@ -20,7 +20,7 @@ const EditProfileScreen = ({ navigation, route }) => {
     name: 'Mathew Adam',
     phone: '+62 112-3288-9111',
     email: 'Mathew@email.com',
-    profileImage: require('../../../assets/images/Avator_img.png'),
+    profileImage: require('../../../../assets/images/Avator_img.png'),
     googleLinked: true,
     facebookLinked: false,
   };
@@ -199,26 +199,42 @@ const styles = StyleSheet.create({
     marginBottom: verticalScale(24),
   },
   input: {
+    width: Math.min(moderateScale(327), SCREEN_WIDTH - moderateScale(48)),
+    height: verticalScale(70),
+    borderRadius: moderateScale(20),
+    paddingVertical: verticalScale(20),
+    paddingHorizontal: moderateScale(20),
+    alignSelf: 'center',
     marginBottom: verticalScale(16),
   },
   socialSection: {
     flexDirection: 'row',
     marginBottom: verticalScale(32),
+    justifyContent: 'center',
+    gap: moderateScale(16),
   },
   locationButtonContainer: {
     marginBottom: verticalScale(24),
+    alignItems: 'center',
   },
   locationButton: {
-    borderRadius: moderateScale(12),
-    paddingVertical: verticalScale(16),
-    paddingHorizontal: moderateScale(20),
+    width: Math.min(276, SCREEN_WIDTH - moderateScale(48)),
+    height: 70,
+    borderRadius: 10,
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    columnGap: 8,
   },
   locationButtonText: {
     fontSize: moderateScale(16),
     fontWeight: '600',
-    textTransform: 'none', // Override lowercase from Button component
+    textTransform: 'none',
   },
 });
 
 export default EditProfileScreen;
+
 

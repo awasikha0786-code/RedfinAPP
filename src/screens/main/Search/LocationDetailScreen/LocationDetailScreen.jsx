@@ -178,6 +178,7 @@ const LocationDetailScreen = ({ navigation, route }) => {
 			{/* Map View */}
 			<View style={styles.mapContainer}>
 				<MapView
+					provider={MapView.PROVIDER_GOOGLE}
 					style={styles.map}
 					initialRegion={defaultRegion}
 					region={defaultRegion}

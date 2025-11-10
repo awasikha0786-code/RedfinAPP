@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { Image } from 'react-native';
-import { HomeScreen, NewListingsAlertScreen, TopLocationsScreen, SearchResultsScreen, SearchResultFilterScreen, NotificationScreen, ChatScreen, MapScreen, LocationDetailScreen, FavoritesScreen, ProfileScreen, EditProfileScreen } from '../screens/main';
+import { Image, View } from 'react-native';
+import { HomeScreen, NewListingsAlertScreen, TopLocationsScreen, SearchResultsScreen, SearchResultFilterScreen, NotificationScreen, ChatScreen, MapScreen, LocationDetailScreen, DrawMapScreen, FavoritesScreen, ProfileScreen, EditProfileScreen, AddPaymentMethodScreen, PaymentMethodDetailsScreen, PaymentConfigScreen, AddListingScreen, AddListingLocationScreen, AddListingPhotosScreen, AddListingDetailsScreen } from '../screens/main';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 // Using custom PNG icons from src/assets/icons
 
@@ -11,8 +11,8 @@ const Tab = createBottomTabNavigator();
 // Preload icon assets with static requires so Metro can bundle them
 const ICONS = {
   Home: {
-    active: require('../assets/icons/House - Active.png'),
-    inactive: require('../assets/icons/House - Active.png'), // fallback to same if inactive not provided
+    active: require('../assets/icons/Home.png'),
+    inactive: require('../assets/icons/Home.png'),
   },
   Search: {
     active: require('../assets/icons/search.png'),
@@ -28,6 +28,25 @@ const ICONS = {
   },
 };
 
+const TabIcon = ({ source, color, focused }) => (
+  <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+    <Image
+      source={source}
+      style={{ width: 24, height: 24, tintColor: color, opacity: focused ? 1 : 0.85 }}
+      resizeMode="contain"
+    />
+    <View
+      style={{
+        width: 6,
+        height: 6,
+        borderRadius: 3,
+        marginTop: 4,
+        backgroundColor: focused ? color : 'transparent',
+      }}
+    />
+  </View>
+);
+
 const Tabs = () => (
   <Tab.Navigator
     screenOptions={({ route }) => ({
@@ -39,13 +58,7 @@ const Tabs = () => (
       tabBarIcon: ({ color, focused }) => {
         const pack = ICONS[route.name];
         const source = focused ? pack.active : pack.inactive;
-        return (
-          <Image
-            source={source}
-            style={{ width: 24, height: 24, tintColor: color, opacity: focused ? 1 : 0.85 }}
-            resizeMode="contain"
-          />
-        );
+        return <TabIcon source={source} color={color} focused={focused} />;
       },
     })}
     initialRouteName="Home"
@@ -66,9 +79,17 @@ const MainStack = () => (
     <Stack.Screen name="SearchResultFilter" component={SearchResultFilterScreen} />
     <Stack.Screen name="Map" component={MapScreen} />
     <Stack.Screen name="LocationDetail" component={LocationDetailScreen} />
+    <Stack.Screen name="DrawMap" component={DrawMapScreen} />
     <Stack.Screen name="Notification" component={NotificationScreen} />
     <Stack.Screen name="Chat" component={ChatScreen} />
     <Stack.Screen name="EditProfile" component={EditProfileScreen} />
+    <Stack.Screen name="AddListing" component={AddListingScreen} />
+    <Stack.Screen name="AddListingLocation" component={AddListingLocationScreen} />
+    <Stack.Screen name="AddListingPhotos" component={AddListingPhotosScreen} />
+    <Stack.Screen name="AddListingDetails" component={AddListingDetailsScreen} />
+    <Stack.Screen name="AddPaymentMethod" component={AddPaymentMethodScreen} />
+    <Stack.Screen name="PaymentMethodDetails" component={PaymentMethodDetailsScreen} />
+    <Stack.Screen name="PaymentConfig" component={PaymentConfigScreen} />
   </Stack.Navigator>
 );
 

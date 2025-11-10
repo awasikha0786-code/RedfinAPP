@@ -1,5 +1,7 @@
 import React from 'react';
-import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity, Dimensions } from 'react-native';
+
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 const TabSelector = ({ tabs = [], activeTab, onTabChange }) => {
   return (
@@ -42,7 +44,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     gap: 8,
-    width: 327,
+    width: Math.min(327, SCREEN_WIDTH - 32),
     height: 50,
     opacity: 1,
     transform: [{ rotate: '0deg' }],

@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Text, Image, TouchableOpacity, ScrollView, Dimensions, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import ProfileHeader from '../../../components/common/ProfileHeader/ProfileHeader';
-import StatisticsCard from '../../../components/common/StatisticsCard/StatisticsCard';
-import TabSelector from '../../../components/main/notification/TabSelector/TabSelector';
-import TransactionPropertyCard from '../../../components/common/TransactionPropertyCard/TransactionPropertyCard';
-import { useFavorites } from '../../../context/FavoritesContext';
+import ProfileHeader from '../../../../components/common/ProfileHeader/ProfileHeader';
+import StatisticsCard from '../../../../components/common/StatisticsCard/StatisticsCard';
+import TabSelector from '../../../../components/main/notification/TabSelector/TabSelector';
+import TransactionPropertyCard from '../../../../components/common/TransactionPropertyCard/TransactionPropertyCard';
+import ConfirmationBottomSheet from '../../../../components/common/buttomSheet/ConfirmationBottomSheet';
+import { useFavorites } from '../../../../context/FavoritesContext';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
@@ -14,15 +15,18 @@ const scale = (size) => (SCREEN_WIDTH / 375) * size;
 const verticalScale = (size) => (SCREEN_HEIGHT / 812) * size;
 const moderateScale = (size, factor = 0.5) => size + (scale(size) - size) * factor;
 
-const ProfileScreen = ({ navigation }) => {
+const ProfileScreen = ({ navigation, route }) => {
   const [activeTab, setActiveTab] = useState('Transaction');
+  const [featureSheetVisible, setFeatureSheetVisible] = useState(false);
+  const [selectedListing, setSelectedListing] = useState(null);
+  const [featuredListingIds, setFeaturedListingIds] = useState([]);
   const { isFavorite, addToFavorites, removeFromFavorites } = useFavorites();
 
   // Sample user data
   const userData = {
     name: 'Mathew Adam',
     email: 'mathew@email.com',
-    profileImage: require('../../../assets/images/Avator_img.png'),
+    profileImage: require('../../../../assets/images/Avator_img.png'),
     stats: {
       listings: 30,
       sold: 12,
@@ -37,14 +41,14 @@ const ProfileScreen = ({ navigation }) => {
       title: 'Wings Tower',
       type: 'Rent',
       date: 'November 21, 2021',
-      image: require('../../../assets/images/login_image.png'),
+      image: require('../../../../assets/images/login_image.png'),
     },
     {
       id: 2,
       title: 'Bridgeland Modern House',
       type: 'Rent',
       date: 'Desember 17, 2021',
-      image: require('../../../assets/images/login_image1.png'),
+      image: require('../../../../assets/images/login_image1.png'),
     },
   ];
 
@@ -57,7 +61,7 @@ const ProfileScreen = ({ navigation }) => {
       location: 'Jakarta, Indonesia',
       price: 370,
       priceUnit: 'month',
-      image: require('../../../assets/images/login_image.png'),
+      image: require('../../../../assets/images/login_image.png'),
     },
     {
       id: 2,
@@ -66,7 +70,7 @@ const ProfileScreen = ({ navigation }) => {
       location: 'Jakarta, Indonesia',
       price: 320,
       priceUnit: 'month',
-      image: require('../../../assets/images/login_image1.png'),
+      image: require('../../../../assets/images/login_image1.png'),
     },
     {
       id: 3,
@@ -75,7 +79,7 @@ const ProfileScreen = ({ navigation }) => {
       location: 'Chicago, IL',
       price: 220,
       priceUnit: 'month',
-      image: require('../../../assets/images/login_image.png'),
+      image: require('../../../../assets/images/login_image.png'),
     },
     {
       id: 4,
@@ -84,7 +88,7 @@ const ProfileScreen = ({ navigation }) => {
       location: 'Chicago, IL',
       price: 271,
       priceUnit: 'month',
-      image: require('../../../assets/images/login_image1.png'),
+      image: require('../../../../assets/images/login_image1.png'),
     },
   ];
 
@@ -95,14 +99,14 @@ const ProfileScreen = ({ navigation }) => {
       title: 'Bungalow House',
       type: 'Sold',
       date: 'November 15, 2021',
-      image: require('../../../assets/images/login_image2.png'),
+      image: require('../../../../assets/images/login_image2.png'),
     },
     {
       id: 2,
       title: 'Sky Dandelions',
       type: 'Sold',
       date: 'October 10, 2021',
-      image: require('../../../assets/images/login_image3.png'),
+      image: require('../../../../assets/images/login_image3.png'),
     },
   ];
 
@@ -163,16 +167,46 @@ const ProfileScreen = ({ navigation }) => {
     }
   };
 
-  const handleEditListing = (listing, e) => {
+  const handleAddListing = () => {
+    const parentNav = navigation.getParent();
+    if (parentNav) {
+      parentNav.navigate('AddListing');
+    } else {
+      navigation.navigate('AddListing');
+    }
+  };
+
+  const openFeatureListingSheet = (listing, e) => {
     e.stopPropagation();
-    // Navigate to edit screen or show edit options
-    // For now, navigate to LocationDetail with edit mode
+    setSelectedListing(listing);
+    setFeatureSheetVisible(true);
+  };
+
+  const navigateToEditListing = (listing) => {
     const parentNav = navigation.getParent();
     if (parentNav) {
       parentNav.navigate('LocationDetail', { property: listing, editMode: true });
     } else {
       navigation.navigate('LocationDetail', { property: listing, editMode: true });
     }
+  };
+
+  const handleFeatureContinue = () => {
+    const listingId = selectedListing?.id;
+    const params = listingId ? { listingId } : undefined;
+    setFeatureSheetVisible(false);
+    const parentNav = navigation.getParent();
+    if (parentNav) {
+      parentNav.navigate('AddPaymentMethod', params);
+    } else {
+      navigation.navigate('AddPaymentMethod', params);
+    }
+    setSelectedListing(null);
+  };
+
+  const handleFeatureCancel = () => {
+    setFeatureSheetVisible(false);
+    setSelectedListing(null);
   };
 
   const handleFavoritePress = (property) => {
@@ -182,6 +216,14 @@ const ProfileScreen = ({ navigation }) => {
       addToFavorites(property);
     }
   };
+
+  useEffect(() => {
+    const featuredId = route?.params?.featuredListingId;
+    if (featuredId) {
+      setFeaturedListingIds((prev) => (prev.includes(featuredId) ? prev : [...prev, featuredId]));
+      navigation.setParams({ featuredListingId: undefined });
+    }
+  }, [route?.params?.featuredListingId, navigation]);
 
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
@@ -205,7 +247,7 @@ const ProfileScreen = ({ navigation }) => {
             >
               <View style={styles.editIconContainer}>
                 <Image
-                  source={require('../../../assets/icons/Pencil.png')}
+                  source={require('../../../../assets/icons/Pencil.png')}
                   style={styles.editIcon}
                   resizeMode="contain"
                 />
@@ -246,10 +288,7 @@ const ProfileScreen = ({ navigation }) => {
               {activeTab === 'Listings' && (
                 <TouchableOpacity 
                   style={styles.plusIconButton}
-                  onPress={() => {
-                    // Handle add new listing
-                    console.log('Add new listing');
-                  }}
+                  onPress={handleAddListing}
                   activeOpacity={0.8}
                 >
                   <View style={styles.plusIconContainer}>
@@ -261,7 +300,7 @@ const ProfileScreen = ({ navigation }) => {
               <View style={styles.gridIconButton}>
                 <View style={styles.gridIconContainer}>
                   <Image
-                    source={require('../../../assets/icons/grid_.png')}
+                    source={require('../../../../assets/icons/grid_.png')}
                     style={styles.gridIcon}
                     resizeMode="contain"
                   />
@@ -288,15 +327,20 @@ const ProfileScreen = ({ navigation }) => {
                         style={styles.listingCardImage}
                         resizeMode="cover"
                       />
+                      {featuredListingIds.includes(listing.id) && (
+                        <View style={styles.featureBadge}>
+                          <Text style={styles.featureBadgeText}>Featured</Text>
+                        </View>
+                      )}
                       {/* Edit Icon - Top Left */}
                       <TouchableOpacity 
                         style={styles.editIconButton}
-                        onPress={(e) => handleEditListing(listing, e)}
+                        onPress={(e) => openFeatureListingSheet(listing, e)}
                         activeOpacity={0.8}
                       >
                         <View style={styles.editIconContainerSmall}>
                           <Image
-                            source={require('../../../assets/icons/Pencil.png')}
+                            source={require('../../../../assets/icons/Pencil.png')}
                             style={styles.editIconSmall}
                             resizeMode="contain"
                           />
@@ -313,7 +357,7 @@ const ProfileScreen = ({ navigation }) => {
                       >
                         <View style={[styles.heartIconContainerListing, isFavorite(listing.id) && styles.heartIconContainerActive]}>
                           <Image 
-                            source={require('../../../assets/icons/Heart.png')}
+                            source={require('../../../../assets/icons/Heart.png')}
                             style={styles.heartIconListing}
                             resizeMode="contain"
                           />
@@ -337,7 +381,7 @@ const ProfileScreen = ({ navigation }) => {
                         <Text style={styles.starIconListing}>⭐</Text>
                         <Text style={styles.ratingTextListing}>{listing.rating}</Text>
                         <Image 
-                          source={require('../../../assets/icons/Location.png')}
+                          source={require('../../../../assets/icons/Location.png')}
                           style={styles.locationIconListing}
                           resizeMode="contain"
                         />
@@ -362,6 +406,28 @@ const ProfileScreen = ({ navigation }) => {
           </View>
         </View>
       </ScrollView>
+      <ConfirmationBottomSheet
+        visible={featureSheetVisible}
+        onClose={handleFeatureCancel}
+        onCancel={handleFeatureCancel}
+        onConfirm={handleFeatureContinue}
+        showIcon={false}
+        title="Feature this"
+        highlightText="Listing?"
+        subtitle=""
+        warningText="Boost your property to the top of search results."
+        cancelText="Cancel"
+        confirmText="Continue"
+        messageAlign="center"
+        containerStyle={styles.featureSheetContainer}
+        sheetStyle={styles.featureSheet}
+        warningTextStyle={styles.featureWarningText}
+        cancelButtonStyle={styles.featureCancelButton}
+        cancelButtonTextStyle={styles.featureCancelButtonText}
+        confirmButtonStyle={styles.featureConfirmButton}
+        confirmButtonTextStyle={styles.featureConfirmButtonText}
+        buttonContainerStyle={styles.featureButtonContainer}
+      />
     </SafeAreaView>
   );
 };
@@ -430,11 +496,12 @@ const styles = StyleSheet.create({
   statisticsSection: {
     flexDirection: 'row',
     paddingHorizontal: Math.max(20, SCREEN_WIDTH * 0.053),
-    marginBottom: verticalScale(24),
+    marginBottom: verticalScale(36),
     justifyContent: 'center',
     alignItems: 'center',
   },
   tabSection: {
+    marginTop: verticalScale(8),
     marginBottom: verticalScale(24),
   },
   transactionsSection: {
@@ -534,8 +601,8 @@ const styles = StyleSheet.create({
   },
   editIconButton: {
     position: 'absolute',
-    top: moderateScale(12),
-    left: moderateScale(12),
+    top: moderateScale(52),
+    right: moderateScale(12),
     zIndex: 10,
   },
   editIconContainerSmall: {
@@ -575,6 +642,71 @@ const styles = StyleSheet.create({
     width: moderateScale(16),
     height: moderateScale(16),
     tintColor: '#FFFFFF',
+  },
+  featureSheetContainer: {
+    alignItems: 'center',
+  },
+  featureSheet: {
+    width: Math.min(SCREEN_WIDTH, 375),
+    height: verticalScale(313),
+    opacity: 1,
+  },
+  featureButtonContainer: {
+    justifyContent: 'flex-end',
+    marginTop: 'auto',
+  },
+  featureCancelButton: {
+    backgroundColor: '#F5F4F8',
+    borderColor: 'transparent',
+    width: moderateScale(158.5),
+    height: verticalScale(69),
+    borderRadius: moderateScale(10),
+    paddingTop: verticalScale(20),
+    paddingBottom: verticalScale(20),
+    paddingLeft: moderateScale(19),
+    paddingRight: moderateScale(19),
+  },
+  featureCancelButtonText: {
+    color: '#14233A',
+    fontWeight: '600',
+    lineHeight: moderateScale(22),
+    includeFontPadding: false,
+  },
+  featureConfirmButton: {
+    backgroundColor: '#E63946',
+    borderColor: '#E63946',
+    width: moderateScale(158.5),
+    height: verticalScale(69),
+    borderRadius: moderateScale(10),
+    paddingTop: verticalScale(20),
+    paddingBottom: verticalScale(20),
+    paddingLeft: moderateScale(19),
+    paddingRight: moderateScale(19),
+  },
+  featureConfirmButtonText: {
+    color: '#FFFFFF',
+    fontWeight: '700',
+    lineHeight: moderateScale(22),
+    includeFontPadding: false,
+  },
+  featureWarningText: {
+    color: '#6C7380',
+    fontSize: moderateScale(14),
+  },
+  featureBadge: {
+    position: 'absolute',
+    top: moderateScale(12),
+    left: moderateScale(12),
+    backgroundColor: '#F7C948',
+    paddingHorizontal: moderateScale(12),
+    paddingVertical: verticalScale(6),
+    borderRadius: moderateScale(16),
+    zIndex: 15,
+  },
+  featureBadgeText: {
+    color: '#14233A',
+    fontSize: moderateScale(12),
+    fontWeight: '700',
   },
   priceTagListing: {
     position: 'absolute',
@@ -655,4 +787,5 @@ const styles = StyleSheet.create({
 });
 
 export default ProfileScreen;
+
 

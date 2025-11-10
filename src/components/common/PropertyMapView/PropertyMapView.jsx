@@ -14,13 +14,26 @@ try {
 		MapView = maps.MapView;
 		Marker = maps.Marker;
 	}
+	// Ensure PROVIDER_GOOGLE is available
+	if (MapView && !MapView.PROVIDER_GOOGLE) {
+		MapView.PROVIDER_GOOGLE = 'google';
+	}
 } catch (error) {
 	console.warn('react-native-maps not available:', error);
 	MapView = null;
 	Marker = null;
 }
 
-const PropertyMapView = ({ properties = [], onPropertyPress, onNearbyPress, nearbyCount = 0 }) => {
+const PropertyMapView = ({
+	properties = [],
+	onPropertyPress,
+	onNearbyPress,
+	nearbyCount = 0,
+	showNearbyButton = true,
+	showPropertyCards = true,
+	containerStyle,
+	mapStyle,
+}) => {
 	const [mapReady, setMapReady] = useState(false);
 	const [mapError, setMapError] = useState(null);
 
@@ -48,7 +61,8 @@ const PropertyMapView = ({ properties = [], onPropertyPress, onNearbyPress, near
 	};
 
 	const handleMapError = (error) => {
-		console.warn('Map error:', error);
+		console.error('Map error:', error);
+		console.error('Error details:', JSON.stringify(error, null, 2));
 		setMapError('Map failed to load. Please check your Google Maps API key.');
 		setMapReady(false);
 	};
@@ -56,7 +70,7 @@ const PropertyMapView = ({ properties = [], onPropertyPress, onNearbyPress, near
 	// If MapView is not available, show error message
 	if (!MapView || !Marker) {
 		return (
-			<View style={styles.container}>
+			<View style={[styles.container, containerStyle]}>
 				<View style={styles.errorContainer}>
 					<Text style={styles.errorText}>Map view is not available.</Text>
 					<Text style={styles.errorSubtext}>
@@ -69,7 +83,7 @@ const PropertyMapView = ({ properties = [], onPropertyPress, onNearbyPress, near
 	}
 
 	return (
-		<View style={styles.container}>
+		<View style={[styles.container, containerStyle]}>
 			{/* Loading Indicator */}
 			{!mapReady && !mapError && (
 				<View style={styles.loadingContainer}>
@@ -90,7 +104,8 @@ const PropertyMapView = ({ properties = [], onPropertyPress, onNearbyPress, near
 
 			{/* Map View */}
 			<MapView
-				style={styles.map}
+				provider={MapView?.PROVIDER_GOOGLE || 'google'}
+				style={[styles.map, mapStyle]}
 				initialRegion={mapRegion}
 				region={mapRegion}
 				onMapReady={handleMapReady}
@@ -101,6 +116,9 @@ const PropertyMapView = ({ properties = [], onPropertyPress, onNearbyPress, near
 				loadingEnabled={true}
 				loadingIndicatorColor="#21628A"
 				loadingBackgroundColor="#FFFFFF"
+				cacheEnabled={true}
+				zoomEnabled={true}
+				scrollEnabled={true}
 			>
 				{properties.map((property) => {
 					if (!property.latitude || !property.longitude) return null;
@@ -114,8 +132,13 @@ const PropertyMapView = ({ properties = [], onPropertyPress, onNearbyPress, near
 							}}
 							title={property.title}
 							description={property.location}
+							anchor={{ x: 0.5, y: 1 }}
 						>
 							<View style={styles.markerContainer}>
+								{/* Green Glow Effect */}
+								<View style={styles.markerGlow} />
+								
+								{/* Circular Image */}
 								<View style={styles.markerImageWrapper}>
 									<Image
 										source={property.image}
@@ -123,6 +146,8 @@ const PropertyMapView = ({ properties = [], onPropertyPress, onNearbyPress, near
 										resizeMode="cover"
 									/>
 								</View>
+								
+								{/* Teardrop Pin */}
 								<View style={styles.markerPin} />
 							</View>
 						</Marker>
@@ -131,35 +156,39 @@ const PropertyMapView = ({ properties = [], onPropertyPress, onNearbyPress, near
 			</MapView>
 
 			{/* Nearby You Button - Bottom Left */}
-			<TouchableOpacity
-				style={styles.nearbyButton}
-				onPress={onNearbyPress}
-				activeOpacity={0.8}
-			>
-				<View style={styles.nearbyCountBadge}>
-					<Text style={styles.nearbyCountText}>{nearbyCount}</Text>
-				</View>
-				<Text style={styles.nearbyButtonText}>Nearby You</Text>
-			</TouchableOpacity>
+			{showNearbyButton && (
+				<TouchableOpacity
+					style={styles.nearbyButton}
+					onPress={onNearbyPress}
+					activeOpacity={0.8}
+				>
+					<View style={styles.nearbyCountBadge}>
+						<Text style={styles.nearbyCountText}>{nearbyCount}</Text>
+					</View>
+					<Text style={styles.nearbyButtonText}>Nearby You</Text>
+				</TouchableOpacity>
+			)}
 
 			{/* Property Cards - Bottom Scrollable */}
-			<View style={styles.cardsContainer}>
-				<ScrollView
-					horizontal
-					showsHorizontalScrollIndicator={false}
-					contentContainerStyle={styles.cardsScrollContent}
-				>
-					{properties.map((property) => (
-						<View key={property.id} style={styles.cardWrapper}>
-							<HomeListingCard
-								property={property}
-								onPress={() => onPropertyPress?.(property)}
-								compact={true}
-							/>
-						</View>
-					))}
-				</ScrollView>
-			</View>
+			{showPropertyCards && (
+				<View style={styles.cardsContainer}>
+					<ScrollView
+						horizontal
+						showsHorizontalScrollIndicator={false}
+						contentContainerStyle={styles.cardsScrollContent}
+					>
+						{properties.map((property) => (
+							<View key={property.id} style={styles.cardWrapper}>
+								<HomeListingCard
+									property={property}
+									onPress={() => onPropertyPress?.(property)}
+									compact={true}
+								/>
+							</View>
+						))}
+					</ScrollView>
+				</View>
+			)}
 		</View>
 	);
 };
@@ -168,6 +197,7 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		position: 'relative',
+		backgroundColor: '#FFFFFF',
 	},
 	loadingContainer: {
 		position: 'absolute',
@@ -215,24 +245,42 @@ const styles = StyleSheet.create({
 		flex: 1,
 		width: '100%',
 		height: '100%',
+		backgroundColor: '#FFFFFF',
 	},
 	markerContainer: {
 		alignItems: 'center',
+		justifyContent: 'center',
 		position: 'relative',
 	},
+	markerGlow: {
+		position: 'absolute',
+		bottom: -12,
+		width: 50,
+		height: 50,
+		borderRadius: 25,
+		backgroundColor: '#4CAF50',
+		opacity: 0.4,
+		shadowColor: '#4CAF50',
+		shadowOffset: { width: 0, height: 0 },
+		shadowOpacity: 1,
+		shadowRadius: 20,
+		elevation: 10,
+		zIndex: 0,
+	},
 	markerImageWrapper: {
-		width: 60,
-		height: 60,
-		borderRadius: 30,
+		width: 56,
+		height: 56,
+		borderRadius: 28,
 		borderWidth: 3,
-		borderColor: '#21628A',
+		borderColor: '#14233A',
 		backgroundColor: '#ffffff',
 		overflow: 'hidden',
+		zIndex: 3,
 		shadowColor: '#000',
 		shadowOffset: { width: 0, height: 2 },
 		shadowOpacity: 0.25,
 		shadowRadius: 4,
-		elevation: 5,
+		elevation: 6,
 	},
 	markerImage: {
 		width: '100%',
@@ -241,17 +289,23 @@ const styles = StyleSheet.create({
 	markerPin: {
 		width: 0,
 		height: 0,
-		borderLeftWidth: 8,
-		borderRightWidth: 8,
-		borderTopWidth: 12,
+		borderLeftWidth: 12,
+		borderRightWidth: 12,
+		borderTopWidth: 20,
 		borderLeftColor: 'transparent',
 		borderRightColor: 'transparent',
-		borderTopColor: '#21628A',
-		marginTop: -2,
+		borderTopColor: '#14233A',
+		marginTop: -4,
+		zIndex: 2,
+		shadowColor: '#000',
+		shadowOffset: { width: 0, height: 2 },
+		shadowOpacity: 0.2,
+		shadowRadius: 3,
+		elevation: 4,
 	},
 	nearbyButton: {
 		position: 'absolute',
-		bottom: 180,
+		bottom: 170,
 		left: 8,
 		width: 137,
 		height: 50,
@@ -297,7 +351,7 @@ const styles = StyleSheet.create({
 		paddingBottom: 20,
 		paddingTop: 16,
 		zIndex: 100,
-		backgroundColor: '#FFFFFF',
+		backgroundColor: 'transparent',
 	},
 	cardsScrollContent: {
 		paddingHorizontal: 20,

@@ -51,8 +51,8 @@ const PopularCarousel = () => {
 								resizeMode="cover"
 							/>
 							{/* Heart Icon Overlay - Top Left */}
-							<TouchableOpacity 
-								style={styles.heartButton}
+					<TouchableOpacity 
+						style={styles.heartButton}
 								activeOpacity={0.8}
 								onPress={() => {
 									if (isFavorite(property.id)) {
@@ -62,13 +62,13 @@ const PopularCarousel = () => {
 									}
 								}}
 							>
-								<View style={styles.heartIconContainer}>
-									<Image 
-										source={require('../../../assets/icons/Heart.png')}
-										style={styles.heartIcon}
-										resizeMode="contain"
-									/>
-								</View>
+						<View style={[styles.heartIconContainer, isFavorite(property.id) && styles.heartIconContainerActive]}>
+							<Image 
+								source={require('../../../assets/icons/Heart.png')}
+								style={[styles.heartIcon, isFavorite(property.id) && styles.heartIconActive]}
+								resizeMode="contain"
+							/>
+						</View>
 							</TouchableOpacity>
 							{/* 3D Walk Through Button - Bottom Left */}
 							<TouchableOpacity 
@@ -83,17 +83,17 @@ const PopularCarousel = () => {
 						{/* Right Content Section */}
 						<View style={styles.contentContainer}>
 							{/* Share Icon - Top Right */}
-							<TouchableOpacity 
-								style={styles.shareButton}
-								activeOpacity={0.8}
-								onPress={() => {}}
-							>
-								<Image 
-									source={require('../../../assets/icons/Share.png')}
-									style={styles.shareIcon}
-									resizeMode="contain"
-								/>
-							</TouchableOpacity>
+              <TouchableOpacity 
+                style={styles.shareButton}
+                activeOpacity={0.8}
+                onPress={() => {}}
+              >
+                <Image 
+                  source={require('../../../assets/icons/share...png')}
+                  style={styles.shareIcon}
+                  resizeMode="contain"
+                />
+              </TouchableOpacity>
 
 							{/* Title - Two Lines */}
 							<Text style={styles.titleText}>{property.title}</Text>
@@ -178,14 +178,22 @@ const styles = StyleSheet.create({
 		width: 40,
 		height: 40,
 		borderRadius: 20,
-		backgroundColor: '#E63946',
+		backgroundColor: '#FFFFFF',
+		borderWidth: 1,
+		borderColor: '#E63946',
 		justifyContent: 'center',
 		alignItems: 'center',
+	},
+	heartIconContainerActive: {
+		backgroundColor: '#E63946',
 	},
 	heartIcon: {
 		width: 20,
 		height: 20,
-		tintColor: '#ffffff',
+		tintColor: '#E63946',
+	},
+	heartIconActive: {
+		tintColor: '#FFFFFF',
 	},
 	walkThroughButton: {
 		position: 'absolute',
@@ -215,8 +223,8 @@ const styles = StyleSheet.create({
 		zIndex: 10,
 	},
 	shareIcon: {
-		width: 18,
-		height: 18,
+		width: 24,
+		height: 24,
 		tintColor: '#21628A',
 	},
 	titleText: {

@@ -5,13 +5,28 @@ const ConfirmationBottomSheet = ({
   visible, 
   onClose, 
   onConfirm,
+  onCancel,
   icon = '?',
   title = "Are you sure want to",
   highlightText = "delete",
   subtitle = "all your chat?",
   warningText = "This action can't be undo",
   cancelText = "Cancel",
-  confirmText = "Delete"
+  confirmText = "Delete",
+  showIcon = true,
+  messageAlign = 'center',
+  cancelButtonStyle,
+  cancelButtonTextStyle,
+  confirmButtonStyle,
+  confirmButtonTextStyle,
+  warningTextStyle,
+  containerStyle,
+  sheetStyle,
+  handleStyle,
+  iconCircleStyle,
+  messageTextStyle,
+  highlightTextStyle,
+  buttonContainerStyle
 }) => {
   return (
     <Modal
@@ -21,42 +36,50 @@ const ConfirmationBottomSheet = ({
       onRequestClose={onClose}
     >
       <Pressable style={styles.overlay} onPress={onClose}>
-        <View style={styles.container}>
+        <View style={[styles.container, containerStyle]}>
           <Pressable onPress={(e) => e.stopPropagation()}>
-            <View style={styles.sheet}>
-              <View style={styles.handleIndicator} />
+            <View style={[styles.sheet, sheetStyle]}>
+              <View style={[styles.handleIndicator, handleStyle]} />
               
               {/* Warning Icon */}
-              <View style={styles.iconContainer}>
-                <View style={styles.iconCircle}>
-                  <Text style={styles.iconText}>{icon}</Text>
+              {showIcon && (
+                <View style={styles.iconContainer}>
+                  <View style={[styles.iconCircle, iconCircleStyle]}>
+                    <Text style={styles.iconText}>{icon}</Text>
+                  </View>
                 </View>
-              </View>
+              )}
 
               {/* Message */}
               <View style={styles.messageContainer}>
-                <Text style={styles.messageText}>
+                <Text style={[styles.messageText, messageTextStyle, { textAlign: messageAlign }]}>
                   {title}{' '}
-                  <Text style={styles.highlightText}>{highlightText}</Text>
+                  <Text style={[styles.highlightText, highlightTextStyle]}>{highlightText}</Text>
                   {' '}{subtitle}
                 </Text>
               </View>
 
               {/* Warning Text */}
-              <Text style={styles.warningText}>{warningText}</Text>
+              <Text style={[styles.warningText, warningTextStyle, { textAlign: messageAlign }]}>{warningText}</Text>
 
               {/* Action Buttons */}
-              <View style={styles.buttonContainer}>
+              <View style={[styles.buttonContainer, buttonContainerStyle]}>
                 <TouchableOpacity 
-                  style={styles.cancelButton} 
-                  onPress={onClose}
+                  style={[styles.cancelButton, cancelButtonStyle]} 
+                  onPress={() => {
+                    if (onCancel) {
+                      onCancel();
+                    } else {
+                      onClose();
+                    }
+                  }}
                   activeOpacity={0.8}
                 >
-                  <Text style={styles.cancelButtonText}>{cancelText}</Text>
+                  <Text style={[styles.cancelButtonText, cancelButtonTextStyle]}>{cancelText}</Text>
                 </TouchableOpacity>
                 
                 <TouchableOpacity 
-                  style={styles.confirmButton} 
+                  style={[styles.confirmButton, confirmButtonStyle]} 
                   onPress={() => {
                     if (onConfirm) {
                       onConfirm();
@@ -65,7 +88,7 @@ const ConfirmationBottomSheet = ({
                   }}
                   activeOpacity={0.8}
                 >
-                  <Text style={styles.confirmButtonText}>{confirmText}</Text>
+                  <Text style={[styles.confirmButtonText, confirmButtonTextStyle]}>{confirmText}</Text>
                 </TouchableOpacity>
               </View>
             </View>

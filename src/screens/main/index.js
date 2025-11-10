@@ -7,8 +7,18 @@ export { default as NotificationScreen } from './NotificationScreen';
 export { default as ChatScreen } from './NotificationScreen/ChatScreen';
 export { default as MapScreen } from './Search/MapScreen';
 export { default as LocationDetailScreen } from './Search/LocationDetailScreen';
+export { default as DrawMapScreen } from './Search/DrawMapScreen';
 export { default as FavoritesScreen } from './FavoritesScreen';
-export { default as ProfileScreen } from './ProfileScreen';
-export { default as EditProfileScreen } from './EditProfileScreen';
+export {
+  ProfileScreen,
+  EditProfileScreen,
+  AddListingScreen,
+  AddListingLocationScreen,
+  AddListingPhotosScreen,
+  AddListingDetailsScreen,
+  AddPaymentMethodScreen,
+  PaymentMethodDetailsScreen,
+  PaymentConfigScreen,
+} from './Profile';
 
 

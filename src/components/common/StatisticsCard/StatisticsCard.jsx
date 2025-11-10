@@ -5,7 +5,7 @@ const StatisticsCard = ({ value, label }) => {
   return (
     <View style={styles.card}>
       <Text style={styles.value}>{value}</Text>
-      <Text style={styles.label}>{label}</Text>
+      <Text style={styles.label} numberOfLines={1}>{label}</Text>
     </View>
   );
 };
@@ -13,7 +13,7 @@ const StatisticsCard = ({ value, label }) => {
 const styles = StyleSheet.create({
   card: {
     backgroundColor: '#FFFFFF',
-    width: 102.33,
+    minWidth: 102.33,
     height: 70,
     borderRadius: 18,
     paddingVertical: 20,
@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '500',
     color: '#14233A',
+    marginTop: 4,
   },
 });
 
