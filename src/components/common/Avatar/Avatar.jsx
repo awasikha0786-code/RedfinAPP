@@ -1,5 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, View, Image, Text, StyleSheet } from 'react-native';
+import { moderateScale, scale } from '../../../utils/layout';
 
 const Avatar = ({ source, onPress, style, label }) => {
   return (
@@ -25,22 +26,22 @@ const Avatar = ({ source, onPress, style, label }) => {
 
 const styles = StyleSheet.create({
   button: {
-    width: 70,
-    height: 70,
-    borderRadius: 50,
+    width: scale(70),
+    height: scale(70),
+    borderRadius: scale(50),
     backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
     overflow: 'hidden',
-    borderWidth: 4,
+    borderWidth: scale(4),
     borderColor: '#EEF2F7',
     opacity: 1,
     transform: [{ rotate: '0deg' }],
   },
   image: {
-    width: 70,
-    height: 70,
-    borderRadius: 50,
+    width: '100%',
+    height: '100%',
+    borderRadius: scale(50),
   },
   fallback: {
     backgroundColor: '#EEF2F7',
@@ -48,12 +49,12 @@ const styles = StyleSheet.create({
     height: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 50,
+    borderRadius: scale(50),
   },
   fallbackText: {
     color: '#1B516B',
     fontWeight: '700',
-    fontSize: 24,
+    fontSize: moderateScale(24),
   },
 });
 

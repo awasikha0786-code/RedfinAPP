@@ -1,5 +1,6 @@
 import React from 'react';
-import { ScrollView, View, StyleSheet, Image, Text, TouchableOpacity } from 'react-native';
+import { ScrollView, StyleSheet, Image, Text, TouchableOpacity } from 'react-native';
+import { moderateScale, responsiveWidth, scale, verticalScale } from '../../../utils/layout';
 
 const HeroCards = ({ navigation }) => {
   const handleCardPress = (imageSource) => {
@@ -42,29 +43,30 @@ const HeroCards = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     row: { 
-        marginTop: 16,
+        marginTop: verticalScale(16),
     },
     card: { 
-        width: 270,
-        height: 180,
-        borderRadius: 25,
+        width: responsiveWidth(72),
+        maxWidth: 320,
+        height: verticalScale(180),
+        borderRadius: moderateScale(25),
         overflow: 'hidden',
-        marginRight: 12,
+        marginRight: moderateScale(12),
     },
     image: { 
-        width: 270,
-        height: 180,
-        borderRadius: 25,
+        width: '100%',
+        height: '100%',
+        borderRadius: moderateScale(25),
         opacity: 1,
         transform: [{ rotate: '0deg' }],
     },
     cardText: { 
         position: 'absolute',
-        left: 12,
-        bottom: 12,
+        left: moderateScale(12),
+        bottom: moderateScale(12),
         color: '#fff',
         fontWeight: '800',
-        fontSize: 16,
+        fontSize: moderateScale(16),
     },
 });
 

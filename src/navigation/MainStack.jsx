@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Image, View } from 'react-native';
-import { HomeScreen, NewListingsAlertScreen, TopLocationsScreen, SearchResultsScreen, SearchResultFilterScreen, NotificationScreen, ChatScreen, MapScreen, LocationDetailScreen, DrawMapScreen, FavoritesScreen, ProfileScreen, EditProfileScreen, AddPaymentMethodScreen, PaymentMethodDetailsScreen, PaymentConfigScreen, AddListingScreen, AddListingLocationScreen, AddListingPhotosScreen, AddListingDetailsScreen } from '../screens/main';
+import { HomeScreen, NewListingsAlertScreen, TopLocationsScreen, SearchResultsScreen, SearchResultFilterScreen, NotificationScreen, ChatScreen, MapScreen, LocationDetailScreen, DrawMapScreen, FavoritesScreen, PropertyDetailScreen, PropertyReviewsScreen, PropertyReviewMediaScreen, PropertyMapOverviewScreen, PropertyVirtualTourScreen, ProfileScreen, EditProfileScreen, EditListingScreen, AddPaymentMethodScreen, PaymentMethodDetailsScreen, PaymentConfigScreen, AddListingScreen, AddListingLocationScreen, AddListingPhotosScreen, AddListingDetailsScreen } from '../screens/main';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 // Using custom PNG icons from src/assets/icons
 
@@ -79,6 +79,11 @@ const MainStack = () => (
     <Stack.Screen name="SearchResultFilter" component={SearchResultFilterScreen} />
     <Stack.Screen name="Map" component={MapScreen} />
     <Stack.Screen name="LocationDetail" component={LocationDetailScreen} />
+    <Stack.Screen name="PropertyDetail" component={PropertyDetailScreen} />
+    <Stack.Screen name="PropertyReviews" component={PropertyReviewsScreen} />
+    <Stack.Screen name="PropertyReviewMedia" component={PropertyReviewMediaScreen} />
+    <Stack.Screen name="PropertyMapOverview" component={PropertyMapOverviewScreen} />
+    <Stack.Screen name="PropertyVirtualTour" component={PropertyVirtualTourScreen} />
     <Stack.Screen name="DrawMap" component={DrawMapScreen} />
     <Stack.Screen name="Notification" component={NotificationScreen} />
     <Stack.Screen name="Chat" component={ChatScreen} />
@@ -87,6 +92,7 @@ const MainStack = () => (
     <Stack.Screen name="AddListingLocation" component={AddListingLocationScreen} />
     <Stack.Screen name="AddListingPhotos" component={AddListingPhotosScreen} />
     <Stack.Screen name="AddListingDetails" component={AddListingDetailsScreen} />
+    <Stack.Screen name="EditListing" component={EditListingScreen} />
     <Stack.Screen name="AddPaymentMethod" component={AddPaymentMethodScreen} />
     <Stack.Screen name="PaymentMethodDetails" component={PaymentMethodDetailsScreen} />
     <Stack.Screen name="PaymentConfig" component={PaymentConfigScreen} />

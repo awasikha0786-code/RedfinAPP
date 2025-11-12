@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
+import { moderateScale, responsiveWidth, scale, verticalScale } from '../../../utils/layout';
 
 const Header = ({ onLocationPress, onNotificationPress, location = 'Chicago,IL' }) => {
     return (
@@ -47,9 +48,9 @@ const Header = ({ onLocationPress, onNotificationPress, location = 'Chicago,IL' 
 const styles = StyleSheet.create({
     container: {
         position: 'relative',
-        paddingVertical: 12,
+        paddingVertical: verticalScale(12),
         paddingLeft: 0,
-        paddingRight: 16,
+        paddingRight: moderateScale(16),
     },
     topRow: {
         flexDirection: 'row',
@@ -57,55 +58,55 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     locationButton: {
-        width: 131,
-        height: 50,
-        borderRadius: 25,
+        minWidth: responsiveWidth(34),
+        height: verticalScale(50),
+        borderRadius: moderateScale(25),
         borderWidth: 1,
         borderColor: '#21628A',
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        paddingHorizontal: 12,
+        paddingHorizontal: moderateScale(12),
     },
     locationText: {
         color: '#21628A',
         fontWeight: '600',
-        fontSize: 14,
-        marginHorizontal: 6,
+        fontSize: moderateScale(14),
+        marginHorizontal: moderateScale(6),
     },
     locationIcon: {
-        width: 18,
-        height: 18,
+        width: scale(18),
+        height: scale(18),
         resizeMode: 'contain',
     },
     listIcon: {
-        width: 16,
-        height: 16,
+        width: scale(16),
+        height: scale(16),
         resizeMode: 'contain',
     },
     texts: {
-        marginTop: 10,
+        marginTop: verticalScale(10),
     },
     title: {
-        fontSize: 22,
+        fontSize: moderateScale(22),
         fontWeight: '800',
         color: '#14233A',
     },
     subtitle: {
-        fontSize: 18,
+        fontSize: moderateScale(18),
         fontWeight: '700',
         color: '#3A6A7E',
-        marginTop: 6,
+        marginTop: verticalScale(6),
     },
     avatarsContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        gap: 8,
+        gap: moderateScale(8),
     },
     notificationButton: {
-        width: 50,
-        height: 50,
-        borderRadius: 25,
+        width: scale(50),
+        height: scale(50),
+        borderRadius: moderateScale(25),
         backgroundColor: '#fff',
         justifyContent: 'center',
         alignItems: 'center',
@@ -114,32 +115,32 @@ const styles = StyleSheet.create({
         position: 'relative',
     },
     notificationImage: {
-        width: 24,
-        height: 24,
+        width: scale(24),
+        height: scale(24),
         resizeMode: 'contain',
         tintColor: '#14233A',
     },
     notificationBadge: {
         position: 'absolute',
-        top: 8,
-        right: 8,
-        width: 8,
-        height: 8,
-        borderRadius: 4,
+        top: scale(8),
+        right: scale(8),
+        width: scale(8),
+        height: scale(8),
+        borderRadius: scale(4),
         backgroundColor: '#E63946',
     },
     avatarButton: {
-        width: 50,
-        height: 50,
-        borderRadius: 25,
+        width: scale(50),
+        height: scale(50),
+        borderRadius: moderateScale(25),
         backgroundColor: '#fff',
         justifyContent: 'center',
         alignItems: 'center',
         overflow: 'hidden',
     },
     avatarImage: {
-        width: 50,
-        height: 50,
+        width: '100%',
+        height: '100%',
         resizeMode: 'cover',
     },
 });

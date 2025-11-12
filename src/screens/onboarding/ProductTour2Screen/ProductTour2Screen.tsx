@@ -168,8 +168,10 @@ const styles = StyleSheet.create({
     transform: [{ rotate: '0deg' }],
   },
   nextButton: {
-    width: BUTTON_SIZES.large.width,
-    height: BUTTON_SIZES.large.height,
+    width: 190,
+    height: 54,
+    borderRadius: 10,
+    backgroundColor: '#DE3341',
   },
 });
 

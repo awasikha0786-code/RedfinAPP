@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Text, ScrollView, TouchableOpacity } from 'react-native';
+import { moderateScale, verticalScale } from '../../../utils/layout';
 
 const pills = ['All', 'Mortgage', 'Sell', 'Rent'];
 
@@ -7,7 +8,7 @@ const CategoryPills = () => {
     const [selectedPill, setSelectedPill] = useState('All');
     
     return (
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginTop: 16 }}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.scroll}>
             {pills.map((pill) => (
                 <TouchableOpacity
                     key={pill}
@@ -26,9 +27,16 @@ const CategoryPills = () => {
 };
 
 const styles = StyleSheet.create({
-	pill: { paddingHorizontal: 16, paddingVertical: 10, borderRadius: 24, backgroundColor: '#EEF2F6', marginRight: 10 },
+	scroll: { marginTop: verticalScale(16) },
+	pill: {
+		paddingHorizontal: moderateScale(16),
+		paddingVertical: verticalScale(10),
+		borderRadius: moderateScale(24),
+		backgroundColor: '#EEF2F6',
+		marginRight: moderateScale(10),
+	},
 	activePill: { backgroundColor: '#1B516B' },
-	pillText: { color: '#4B5563', fontWeight: '600' },
+	pillText: { color: '#4B5563', fontWeight: '600', fontSize: moderateScale(14) },
 	activeText: { color: '#FFFFFF' },
 });
 

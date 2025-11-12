@@ -101,6 +101,11 @@ const AddListingPhotosScreen = ({ navigation, route }) => {
       <ScreenHeader onBackPress={handleBack} title="Add Listing" />
 
       <View style={styles.content}>
+        <Text style={styles.introText}>
+          Almost finish complete
+          {'\n'}
+          the listing
+        </Text>
         <Text style={styles.heading}>
           Add <Text style={styles.headingAccent}>photos</Text> to your listing
         </Text>
@@ -206,6 +211,14 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: GRID_HORIZONTAL_PADDING,
     paddingTop: verticalScale(24),
+  },
+  introText: {
+    fontSize: moderateScale(25),
+    fontWeight: '800',
+    color: '#14233A',
+    lineHeight: verticalScale(40),
+    letterSpacing: scale(0.75),
+    marginBottom: verticalScale(12),
   },
   heading: {
     fontSize: moderateScale(26),

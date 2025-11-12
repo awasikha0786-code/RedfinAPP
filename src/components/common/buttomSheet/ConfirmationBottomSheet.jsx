@@ -26,7 +26,10 @@ const ConfirmationBottomSheet = ({
   iconCircleStyle,
   messageTextStyle,
   highlightTextStyle,
-  buttonContainerStyle
+  buttonContainerStyle,
+  renderIcon,
+  showCancelButton = true,
+  showConfirmButton = true,
 }) => {
   return (
     <Modal
@@ -44,9 +47,13 @@ const ConfirmationBottomSheet = ({
               {/* Warning Icon */}
               {showIcon && (
                 <View style={styles.iconContainer}>
-                  <View style={[styles.iconCircle, iconCircleStyle]}>
-                    <Text style={styles.iconText}>{icon}</Text>
-                  </View>
+                  {renderIcon ? (
+                    renderIcon()
+                  ) : (
+                    <View style={[styles.iconCircle, iconCircleStyle]}>
+                      <Text style={styles.iconText}>{icon}</Text>
+                    </View>
+                  )}
                 </View>
               )}
 
@@ -63,33 +70,43 @@ const ConfirmationBottomSheet = ({
               <Text style={[styles.warningText, warningTextStyle, { textAlign: messageAlign }]}>{warningText}</Text>
 
               {/* Action Buttons */}
-              <View style={[styles.buttonContainer, buttonContainerStyle]}>
-                <TouchableOpacity 
-                  style={[styles.cancelButton, cancelButtonStyle]} 
-                  onPress={() => {
-                    if (onCancel) {
-                      onCancel();
-                    } else {
+              <View
+                style={[
+                  styles.buttonContainer,
+                  (!showCancelButton || !showConfirmButton) && styles.buttonContainerSingle,
+                  buttonContainerStyle,
+                ]}
+              >
+                {showCancelButton && (
+                  <TouchableOpacity
+                    style={[styles.cancelButton, cancelButtonStyle]}
+                    onPress={() => {
+                      if (onCancel) {
+                        onCancel();
+                      } else {
+                        onClose();
+                      }
+                    }}
+                    activeOpacity={0.8}
+                  >
+                    <Text style={[styles.cancelButtonText, cancelButtonTextStyle]}>{cancelText}</Text>
+                  </TouchableOpacity>
+                )}
+
+                {showConfirmButton && (
+                  <TouchableOpacity
+                    style={[styles.confirmButton, confirmButtonStyle]}
+                    onPress={() => {
+                      if (onConfirm) {
+                        onConfirm();
+                      }
                       onClose();
-                    }
-                  }}
-                  activeOpacity={0.8}
-                >
-                  <Text style={[styles.cancelButtonText, cancelButtonTextStyle]}>{cancelText}</Text>
-                </TouchableOpacity>
-                
-                <TouchableOpacity 
-                  style={[styles.confirmButton, confirmButtonStyle]} 
-                  onPress={() => {
-                    if (onConfirm) {
-                      onConfirm();
-                    }
-                    onClose();
-                  }}
-                  activeOpacity={0.8}
-                >
-                  <Text style={[styles.confirmButtonText, confirmButtonTextStyle]}>{confirmText}</Text>
-                </TouchableOpacity>
+                    }}
+                    activeOpacity={0.8}
+                  >
+                    <Text style={[styles.confirmButtonText, confirmButtonTextStyle]}>{confirmText}</Text>
+                  </TouchableOpacity>
+                )}
               </View>
             </View>
           </Pressable>
@@ -176,6 +193,9 @@ const styles = StyleSheet.create({
     width: '100%',
     gap: 12,
     paddingHorizontal: 4,
+  },
+  buttonContainerSingle: {
+    justifyContent: 'center',
   },
   cancelButton: {
     flex: 1,

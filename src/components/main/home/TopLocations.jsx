@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
+import { moderateScale, responsiveWidth, scale, verticalScale } from '../../../utils/layout';
 
 const TopLocations = ({ navigation }) => {
 	const locations = [
@@ -64,38 +65,39 @@ const TopLocations = ({ navigation }) => {
 
 const styles = StyleSheet.create({
 	container: {
-		marginTop: 16,
+		marginTop: verticalScale(16),
 	},
 	title: {
-		fontSize: 18,
+		fontSize: moderateScale(18),
 		fontWeight: '800',
 		color: '#14233A',
-		marginBottom: 10,
+		marginBottom: verticalScale(10),
 	},
 	scrollView: {
 		marginTop: 0,
 	},
 	scrollContent: {
-		paddingRight: 16,
+		paddingRight: moderateScale(16),
 	},
 	locationItem: {
-		marginRight: 16,
+		marginRight: moderateScale(16),
 	},
 	cardContainer: {
-		width: 108,
-		height: 56,
-		borderRadius: 50,
+		width: responsiveWidth(42),
+		maxWidth: 160,
+		height: verticalScale(56),
+		borderRadius: moderateScale(50),
 		backgroundColor: '#F5F4F8',
-		paddingVertical: 8,
-		paddingHorizontal: 8,
+		paddingVertical: verticalScale(8),
+		paddingHorizontal: moderateScale(8),
 		flexDirection: 'row',
 		alignItems: 'center',
-		gap: 15,
+		gap: moderateScale(15),
 	},
 	avatarContainer: {
-		width: 40,
-		height: 40,
-		borderRadius: 20,
+		width: scale(40),
+		height: scale(40),
+		borderRadius: scale(20),
 		overflow: 'hidden',
 		backgroundColor: '#F3F4F6',
 	},
@@ -104,7 +106,7 @@ const styles = StyleSheet.create({
 		height: '100%',
 	},
 	locationText: {
-		fontSize: 14,
+		fontSize: moderateScale(14),
 		fontWeight: '600',
 		color: '#14233A',
 		textAlign: 'center',

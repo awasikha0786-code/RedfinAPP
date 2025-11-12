@@ -149,22 +149,57 @@ const ProfileScreen = ({ navigation, route }) => {
     }
   };
 
-  const handlePropertyPress = (property) => {
-    const parentNav = navigation.getParent();
-    if (parentNav) {
-      parentNav.navigate('LocationDetail', { property });
-    } else {
-      navigation.navigate('LocationDetail', { property });
+  const findNavigatorWithRoute = (nav, routeName) => {
+    let current = nav;
+    while (current) {
+      const state = current.getState ? current.getState() : null;
+      if (state?.routeNames?.includes(routeName)) {
+        return current;
+      }
+      current = current.getParent ? current.getParent() : null;
+    }
+    return nav;
+  };
+
+  const navigateToPropertyDetail = (property) => {
+    if (!property) return;
+
+    const payload = {
+      property: {
+        id: property.id,
+        title: property.title,
+        price: property.price,
+        priceUnit: property.priceUnit,
+        rating: property.rating,
+        type: property.type || property.listingType || 'House',
+        location: property.location,
+        address: property.location,
+        image: property.image,
+        gallery: property.gallery || [
+          property.image,
+          require('../../../../assets/images/login_image1.png'),
+          require('../../../../assets/images/login_image2.png'),
+        ],
+        features: [
+          property.bedrooms ? { label: `${property.bedrooms} Bedroom` } : null,
+          property.bathrooms ? { label: `${property.bathrooms} Bathroom` } : null,
+          property.area ? { label: property.area, emphasis: true } : null,
+        ].filter(Boolean),
+      },
+    };
+
+    const targetNav = findNavigatorWithRoute(navigation, 'PropertyDetail');
+    if (targetNav?.navigate) {
+      targetNav.navigate('PropertyDetail', payload);
     }
   };
 
+  const handlePropertyPress = (property) => {
+    navigateToPropertyDetail(property);
+  };
+
   const handleListingPress = (listing) => {
-    const parentNav = navigation.getParent();
-    if (parentNav) {
-      parentNav.navigate('LocationDetail', { property: listing });
-    } else {
-      navigation.navigate('LocationDetail', { property: listing });
-    }
+    navigateToPropertyDetail(listing);
   };
 
   const handleAddListing = () => {
@@ -176,19 +211,28 @@ const ProfileScreen = ({ navigation, route }) => {
     }
   };
 
+  const handleEditListing = (listing) => {
+    const parentNav = navigation.getParent();
+    const params = listing
+      ? {
+          listing: {
+            ...listing,
+            rentPrice: listing.price,
+            rentInterval: listing.priceUnit === 'year' ? 'yearly' : 'monthly',
+          },
+        }
+      : undefined;
+    if (parentNav) {
+      parentNav.navigate('EditListing', params);
+    } else {
+      navigation.navigate('EditListing', params);
+    }
+  };
+
   const openFeatureListingSheet = (listing, e) => {
     e.stopPropagation();
     setSelectedListing(listing);
     setFeatureSheetVisible(true);
-  };
-
-  const navigateToEditListing = (listing) => {
-    const parentNav = navigation.getParent();
-    if (parentNav) {
-      parentNav.navigate('LocationDetail', { property: listing, editMode: true });
-    } else {
-      navigation.navigate('LocationDetail', { property: listing, editMode: true });
-    }
   };
 
   const handleFeatureContinue = () => {
@@ -327,23 +371,39 @@ const ProfileScreen = ({ navigation, route }) => {
                         style={styles.listingCardImage}
                         resizeMode="cover"
                       />
+                      <TouchableOpacity
+                        style={styles.listingEditButton}
+                        onPress={(e) => {
+                          e.stopPropagation();
+                          handleEditListing(listing);
+                        }}
+                        activeOpacity={0.85}
+                      >
+                        <View style={styles.listingEditOuter}>
+                          <View style={styles.listingEditInner}>
+                            <Image
+                              source={require('../../../../assets/icons/Pencil.png')}
+                              style={styles.listingEditIcon}
+                              resizeMode="contain"
+                            />
+                          </View>
+                        </View>
+                      </TouchableOpacity>
                       {featuredListingIds.includes(listing.id) && (
-                        <View style={styles.featureBadge}>
+                        <View style={[styles.featureBadge, styles.featureBadgeWithEdit]}>
                           <Text style={styles.featureBadgeText}>Featured</Text>
                         </View>
                       )}
-                      {/* Edit Icon - Top Left */}
+                      {/* Feature Icon - Below Heart */}
                       <TouchableOpacity 
-                        style={styles.editIconButton}
+                        style={styles.featureIconButton}
                         onPress={(e) => openFeatureListingSheet(listing, e)}
                         activeOpacity={0.8}
                       >
-                        <View style={styles.editIconContainerSmall}>
-                          <Image
-                            source={require('../../../../assets/icons/Pencil.png')}
-                            style={styles.editIconSmall}
-                            resizeMode="contain"
-                          />
+                        <View style={styles.featureIconOuter}>
+                          <View style={styles.featureIconInner}>
+                            <Text style={styles.featureIconStar}>☆</Text>
+                          </View>
                         </View>
                       </TouchableOpacity>
                       {/* Heart Icon - Top Right */}
@@ -599,13 +659,26 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
-  editIconButton: {
+  listingEditButton: {
     position: 'absolute',
-    top: moderateScale(52),
-    right: moderateScale(12),
-    zIndex: 10,
+    top: moderateScale(12),
+    left: moderateScale(12),
+    zIndex: 12,
   },
-  editIconContainerSmall: {
+  listingEditOuter: {
+    width: moderateScale(36),
+    height: moderateScale(36),
+    borderRadius: moderateScale(18),
+    backgroundColor: '#F5F0FF',
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#1F2D3D',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: Platform.OS === 'ios' ? 0.12 : 0,
+    shadowRadius: 4,
+    elevation: Platform.OS === 'android' ? 2 : 0,
+  },
+  listingEditInner: {
     width: moderateScale(32),
     height: moderateScale(32),
     borderRadius: moderateScale(16),
@@ -613,10 +686,43 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  editIconSmall: {
+  listingEditIcon: {
     width: moderateScale(16),
     height: moderateScale(16),
     tintColor: '#FFFFFF',
+  },
+  featureIconButton: {
+    position: 'absolute',
+    top: moderateScale(52),
+    right: moderateScale(12),
+    zIndex: 10,
+  },
+  featureIconOuter: {
+    width: moderateScale(32),
+    height: moderateScale(32),
+    borderRadius: moderateScale(16),
+    backgroundColor: '#F0F3F8',
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#1F2D3D',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: Platform.OS === 'ios' ? 0.12 : 0,
+    shadowRadius: 6,
+    elevation: Platform.OS === 'android' ? 2 : 0,
+  },
+  featureIconInner: {
+    width: moderateScale(28),
+    height: moderateScale(28),
+    borderRadius: moderateScale(14),
+    backgroundColor: '#FFFFFF',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  featureIconStar: {
+    fontSize: moderateScale(16),
+    fontWeight: '700',
+    color: '#1F4A68',
+    includeFontPadding: false,
   },
   heartButtonListing: {
     position: 'absolute',
@@ -695,13 +801,17 @@ const styles = StyleSheet.create({
   },
   featureBadge: {
     position: 'absolute',
-    top: moderateScale(12),
+    top: moderateScale(54),
     left: moderateScale(12),
     backgroundColor: '#F7C948',
     paddingHorizontal: moderateScale(12),
     paddingVertical: verticalScale(6),
     borderRadius: moderateScale(16),
     zIndex: 15,
+  },
+  featureBadgeWithEdit: {
+    top: moderateScale(56),
+    left: moderateScale(14),
   },
   featureBadgeText: {
     color: '#14233A',

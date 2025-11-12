@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import Avatar from '../../common/Avatar/Avatar';
+import { moderateScale, verticalScale } from '../../../utils/layout';
 
 const Item = ({ label, source, onPress }) => (
 	<TouchableOpacity style={styles.item} onPress={onPress} activeOpacity={0.8}>
@@ -24,15 +25,15 @@ const ServicesGrid = () => (
 
 const styles = StyleSheet.create({
 	container: {
-		marginTop: 40,
-		marginBottom: 24,
+		marginTop: verticalScale(40),
+		marginBottom: verticalScale(24),
 		paddingHorizontal: 0,
 	},
 	title: {
-		fontSize: 18,
+		fontSize: moderateScale(18),
 		fontWeight: '800',
 		color: '#14233A',
-		marginBottom: 12,
+		marginBottom: verticalScale(12),
 		paddingHorizontal: 0,
 	},
 	row: {
@@ -48,7 +49,7 @@ const styles = StyleSheet.create({
 	itemText: {
 		fontWeight: '700',
 		color: '#1F2A37',
-		marginTop: 8,
+		marginTop: verticalScale(8),
 		textAlign: 'center',
 	},
 });
