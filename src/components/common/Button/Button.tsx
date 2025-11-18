@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     color: COLORS.white,
     fontSize: FONT_SIZES.md,
     fontWeight: '600',
-    textTransform: 'lowercase',
+    textTransform: 'none',
     textAlign: 'center',
   },
   disabled: {

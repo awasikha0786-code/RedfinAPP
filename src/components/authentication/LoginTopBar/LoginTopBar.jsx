@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
   },
   illustrationContainer: {
-    height: 200,
+    height: 140,
     backgroundColor: '#ffffff',
   },
   illustration: {

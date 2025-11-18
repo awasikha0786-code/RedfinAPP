@@ -38,8 +38,8 @@ const Header = ({ onLocationPress, onNotificationPress, location = 'Chicago,IL' 
             </View>
 
             <View style={styles.texts}>
-                <Text style={styles.title}>Welcome back, Ethan!</Text>
-                <Text style={styles.subtitle}>Find your next home</Text>
+                <Text style={styles.title}>{`Welcome back, Ethan!
+Find your next home`}</Text>
             </View>
         </View>
     );
@@ -85,12 +85,18 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
     },
     texts: {
-        marginTop: verticalScale(10),
+        marginTop: verticalScale(18),
+        width: moderateScale(267),
+        minHeight: verticalScale(80),
+        justifyContent: 'center',
     },
     title: {
-        fontSize: moderateScale(22),
-        fontWeight: '800',
-        color: '#14233A',
+        fontFamily: 'Lato',
+        fontWeight: '500',
+        fontSize: moderateScale(25),
+        lineHeight: moderateScale(40),
+        letterSpacing: 0.75,
+        color: '#252B5C',
     },
     subtitle: {
         fontSize: moderateScale(18),

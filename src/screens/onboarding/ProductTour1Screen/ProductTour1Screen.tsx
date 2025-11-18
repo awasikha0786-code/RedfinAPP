@@ -5,6 +5,7 @@ import { Text } from '../../../components/common/Text';
 import { ProductTourHeader } from '../../../components/common/ProductTourHeader';
 import { PropertyImage } from '../../../components/common/PropertyImage';
 import { COLORS, BUTTON_SIZES } from '../../../constants/index';
+import { scale, verticalScale, moderateScale, responsiveWidth } from '../../../utils/layout';
 
 interface ProductTour1ScreenProps {
   navigation: any; // TODO: Add proper navigation type
@@ -23,26 +24,22 @@ const ProductTour1Screen: React.FC<ProductTour1ScreenProps> = ({ navigation }) =
     <View style={styles.container}>
       {/* Header with Logo and Skip Button */}
       <ProductTourHeader onSkipPress={handleSkipPress} />
-      
-      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+
+      <ScrollView
+        style={styles.content}
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
         {/* Main Content */}
         <View style={styles.textContainer}>
-          <Text variant="headline" style={styles.headline}>
-            Find the right home
-          </Text>
-          
-          <View style={styles.subtitleContainer}>
-            <Text variant="headline" style={styles.subtitle}>
-              at the 
-            </Text>
-            <Text variant="headline" color="#21628A" style={styles.highlightText}>
-              good price
-            </Text>
-          </View>
-          
-          <Text variant="body" style={styles.description}>
-            Browse real homes for sale in your area{'\n'}with trusted experts.
-          </Text>
+          <RNText style={styles.headline}>
+            <RNText style={styles.headlineMuted}>{'Find the right home\nat the '}</RNText>
+            <RNText style={styles.headlineHighlight}>{'good price'}</RNText>
+          </RNText>
+          <RNText style={styles.subHeadline}>
+            <RNText style={styles.subHeadlineText}>Browse real homes for sale in your area with trusted experts.</RNText>
+           
+          </RNText>
         </View>
         
         {/* Property Image Card */}
@@ -56,11 +53,7 @@ const ProductTour1Screen: React.FC<ProductTour1ScreenProps> = ({ navigation }) =
           
           {/* Next Button Overlay */}
           <View style={styles.buttonContainer}>
-            <Button
-              title="Next"
-              onPress={handleNextPress}
-              style={styles.nextButton}
-            />
+            <Button title="Next" onPress={handleNextPress} style={styles.nextButton} textStyle={styles.nextButtonText} />
           </View>
         </View>
       </ScrollView>
@@ -76,22 +69,55 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
   },
+  scrollContent: {
+    paddingBottom: verticalScale(32),
+  },
   textContainer: {
-    paddingHorizontal: 20,
-    paddingTop: 10,
-    paddingBottom: 20,
+    paddingHorizontal: scale(20),
+    paddingTop: verticalScale(12),
+    paddingBottom: verticalScale(20),
     position: 'relative',
   },
   headline: {
-    width: 238,
-    height: 80,
-    marginTop: 10, // 124 - 10 (paddingTop)
-    marginLeft: 4, // 24 - 20 (paddingHorizontal)
+    width: responsiveWidth(70),
+    marginTop: verticalScale(10),
+    marginLeft: scale(4),
     opacity: 1,
-    transform: [{ rotate: '0deg' }],
-    marginBottom: 8,
+    color: '#252B5C',
+    fontFamily: 'Lato',
+    fontWeight: '500',
+    fontSize: moderateScale(25),
+    lineHeight: verticalScale(40),
+    letterSpacing: 0.03 * 25,
+  },
+  headlineMuted: {
+    fontFamily: 'Lato',
+    fontWeight: '500',
+    fontSize: moderateScale(25),
+    lineHeight: verticalScale(40),
+    letterSpacing: 0.03 * 25,
     color: '#000000',
-    textAlign: 'left',
+  },
+  headlineHighlight: {
+    fontFamily: 'Lato',
+    fontWeight: '800',
+    fontSize: 25,
+    lineHeight: 40,
+    letterSpacing: 0.03 * 25,
+    color: '#204D6C',
+  },
+  subHeadline: {
+    marginTop: verticalScale(16),
+    marginLeft: scale(4),
+    width: responsiveWidth(72),
+    lineHeight: verticalScale(20),
+    letterSpacing: 0.36,
+  },
+  subHeadlineText: {
+    fontFamily: 'Lato',
+    fontWeight: '400',
+    fontSize: moderateScale(12),
+    color: '#546273',
   },
   subtitleContainer: {
     flexDirection: 'row',
@@ -114,26 +140,31 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     flex: 1,
-    marginHorizontal: 20,
-    marginBottom: 20,
+    marginHorizontal: scale(20),
+    marginBottom: verticalScale(24),
     position: 'relative',
-    minHeight: 500,
+    minHeight: verticalScale(560),
   },
   propertyImage: {
     width: '100%',
-    height: 500,
-    borderRadius: 40,
+    height: verticalScale(560),
+    borderRadius: scale(32),
   },
   buttonContainer: {
     position: 'absolute',
-    bottom: 40,
-    left: 20,
-    right: 20,
+    bottom: verticalScale(40),
+    left: scale(20),
+    right: scale(20),
   },
   nextButton: {
-    width: BUTTON_SIZES.large.width,
-    height: BUTTON_SIZES.large.height,
+    width: scale(BUTTON_SIZES.large.width),
+    height: verticalScale(BUTTON_SIZES.large.height),
     alignSelf: 'center',
+    borderRadius: scale(10),
+    backgroundColor: COLORS.primary,
+  },
+  nextButtonText: {
+    textTransform: 'none',
   },
 });
 

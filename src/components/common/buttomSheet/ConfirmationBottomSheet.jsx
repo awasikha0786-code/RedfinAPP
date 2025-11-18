@@ -26,6 +26,7 @@ const ConfirmationBottomSheet = ({
   iconCircleStyle,
   messageTextStyle,
   highlightTextStyle,
+  messageContainerStyle,
   buttonContainerStyle,
   renderIcon,
   showCancelButton = true,
@@ -58,11 +59,12 @@ const ConfirmationBottomSheet = ({
               )}
 
               {/* Message */}
-              <View style={styles.messageContainer}>
+              <View style={[styles.messageContainer, messageContainerStyle]}>
                 <Text style={[styles.messageText, messageTextStyle, { textAlign: messageAlign }]}>
-                  {title}{' '}
-                  <Text style={[styles.highlightText, highlightTextStyle]}>{highlightText}</Text>
-                  {' '}{subtitle}
+                  {title}{highlightText && ' '}
+                  {highlightText && <Text style={[styles.highlightText, highlightTextStyle]}>{highlightText}</Text>}
+                  {subtitle && '\n'}
+                  {subtitle && <Text style={[styles.highlightText, highlightTextStyle]}>{subtitle}</Text>}
                 </Text>
               </View>
 

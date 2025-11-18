@@ -136,8 +136,36 @@ const ProfileScreen = ({ navigation, route }) => {
   };
 
   const handleSettingsPress = () => {
-    console.log('Settings pressed');
-    // Navigate to settings screen if needed
+    const parentNav = navigation.getParent();
+    const transactionData = {
+      transaction: {
+        property: {
+          title: 'Sky Dandelions',
+          type: 'Apartment',
+          location: 'Jakarta, Indonesia',
+          image: require('../../../../assets/images/login_image3.png'),
+          isFavorite: false,
+        },
+        checkIn: '11/28/2021',
+        checkOut: '01/28/2022',
+        ownerName: 'Anderson',
+        transactionType: 'Rent',
+        periodTime: '2 month',
+        monthlyPayment: '$ 220',
+        discount: '-$ 88',
+        total: '$ 31,250',
+        paymentMethod: {
+          type: 'PayPal',
+          email: '...an@email.com',
+          icon: require('../../../../assets/icons/Paypal - Normal.png'),
+        },
+      },
+    };
+    if (parentNav) {
+      parentNav.navigate('TransactionDetail', transactionData);
+    } else {
+      navigation.navigate('TransactionDetail', transactionData);
+    }
   };
 
   const handleEditProfile = () => {

@@ -263,7 +263,7 @@ const PropertyDetailScreen = ({ navigation, route }) => {
 
         <PropertyFeaturePills features={featureItems} />
 
-        <PropertyAgentCard agent={agent} />
+        <PropertyAgentCard agent={agent} onPress={() => navigation.navigate('TopAgents')} />
 
         <View style={styles.sectionHeaderRow}>
           <Text style={styles.sectionLabel}>Location & Public Facilities</Text>
@@ -395,7 +395,11 @@ const PropertyDetailScreen = ({ navigation, route }) => {
         </PropertyInfoSection>
       </ScrollView>
       <View style={styles.bottomActionBar}>
-        <TouchableOpacity style={styles.buyButton} activeOpacity={0.9}>
+        <TouchableOpacity 
+          style={styles.buyButton} 
+          activeOpacity={0.9}
+          onPress={() => navigation.navigate('TransactionReview', { property })}
+        >
           <Text style={styles.buyButtonText}>Buy Now</Text>
         </TouchableOpacity>
       </View>

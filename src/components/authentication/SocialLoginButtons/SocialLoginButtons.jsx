@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
-import { Icon } from '../../common/index.js';
+import { View, StyleSheet, TouchableOpacity, Text, Image } from 'react-native';
+import { scale, verticalScale } from '../../../utils/layout';
 
 const SocialLoginButtons = ({
   onGooglePress,
@@ -24,7 +24,10 @@ const SocialLoginButtons = ({
           onPress={onGooglePress}
           activeOpacity={0.8}
         >
-          <Icon name="google" style={styles.socialIcon} />
+          <Image
+            source={require('../../../assets/icons/google.png')}
+            style={styles.socialIcon}
+          />
           <Text style={styles.socialButtonText}>Google</Text>
         </TouchableOpacity>
 
@@ -34,7 +37,10 @@ const SocialLoginButtons = ({
           onPress={onFacebookPress}
           activeOpacity={0.8}
         >
-          <Icon name="facebook" style={styles.socialIcon} />
+          <Image
+            source={require('../../../assets/icons/facebook.png')}
+            style={styles.socialIcon}
+          />
           <Text style={styles.socialButtonText}>Facebook</Text>
         </TouchableOpacity>
       </View>
@@ -65,18 +71,18 @@ const styles = StyleSheet.create({
   },
   buttonsContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: scale(8),
   },
   socialButton: {
-    flex: 1,
+    width: scale(158.5),
+    height: verticalScale(70),
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#F5F5F5',
-    borderRadius: 12,
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    marginHorizontal: 4,
+    borderRadius: 25,
     borderWidth: 1,
     borderColor: '#E0E0E0',
   },

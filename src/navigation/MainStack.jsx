@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Image, View } from 'react-native';
-import { HomeScreen, NewListingsAlertScreen, TopLocationsScreen, SearchResultsScreen, SearchResultFilterScreen, NotificationScreen, ChatScreen, MapScreen, LocationDetailScreen, DrawMapScreen, FavoritesScreen, PropertyDetailScreen, PropertyReviewsScreen, PropertyReviewMediaScreen, PropertyMapOverviewScreen, PropertyVirtualTourScreen, ProfileScreen, EditProfileScreen, EditListingScreen, AddPaymentMethodScreen, PaymentMethodDetailsScreen, PaymentConfigScreen, AddListingScreen, AddListingLocationScreen, AddListingPhotosScreen, AddListingDetailsScreen } from '../screens/main';
+import { HomeScreen, NewListingsAlertScreen, TopLocationsScreen, SearchResultsScreen, SearchResultFilterScreen, NotificationScreen, ChatScreen, MapScreen, LocationDetailScreen, DrawMapScreen, FavoritesScreen, PropertyDetailScreen, PropertyReviewsScreen, PropertyReviewMediaScreen, PropertyMapOverviewScreen, PropertyVirtualTourScreen, ProfileScreen, EditProfileScreen, EditListingScreen, AddPaymentMethodScreen, PaymentMethodDetailsScreen, PaymentConfigScreen, AddListingScreen, AddListingLocationScreen, AddListingPhotosScreen, AddListingDetailsScreen, PropertyRecommendationScreen, TopAgentsScreen, AgentProfileScreen, FeaturedHomesScreen, FeaturedHomesFilterScreen, TransactionDetailScreen, TransactionReviewScreen, TransactionSummaryScreen, AddReviewScreen } from '../screens/main';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 // Using custom PNG icons from src/assets/icons
 
@@ -84,6 +84,15 @@ const MainStack = () => (
     <Stack.Screen name="PropertyReviewMedia" component={PropertyReviewMediaScreen} />
     <Stack.Screen name="PropertyMapOverview" component={PropertyMapOverviewScreen} />
     <Stack.Screen name="PropertyVirtualTour" component={PropertyVirtualTourScreen} />
+    <Stack.Screen name="PropertyRecommendation" component={PropertyRecommendationScreen} />
+    <Stack.Screen name="FeaturedHomes" component={FeaturedHomesScreen} />
+    <Stack.Screen name="FeaturedHomesFilter" component={FeaturedHomesFilterScreen} />
+    <Stack.Screen name="TransactionDetail" component={TransactionDetailScreen} />
+    <Stack.Screen name="TransactionReview" component={TransactionReviewScreen} />
+    <Stack.Screen name="TransactionSummary" component={TransactionSummaryScreen} />
+    <Stack.Screen name="AddReview" component={AddReviewScreen} />
+    <Stack.Screen name="TopAgents" component={TopAgentsScreen} />
+    <Stack.Screen name="AgentProfile" component={AgentProfileScreen} />
     <Stack.Screen name="DrawMap" component={DrawMapScreen} />
     <Stack.Screen name="Notification" component={NotificationScreen} />
     <Stack.Screen name="Chat" component={ChatScreen} />

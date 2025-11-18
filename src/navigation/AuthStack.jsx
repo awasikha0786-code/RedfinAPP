@@ -1,6 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { SplashScreen, ProductTour1Screen, ProductTour2Screen, ProductTour3Screen } from '../screens/onboarding';
+import { AddLocationScreen, ChooseLocationScreen, SelectRealEstateTypeScreen, AccountInfoScreen } from '../screens/main/accountSetUp';
 import { LoginFormScreen, RegisterScreen, OTPScreen } from '../screens/authentication';
 
 const Stack = createStackNavigator();
@@ -15,6 +16,10 @@ const AuthStack = () => {
       <Stack.Screen name="ProductTour1" component={ProductTour1Screen} />
       <Stack.Screen name="ProductTour2" component={ProductTour2Screen} />
       <Stack.Screen name="ProductTour3" component={ProductTour3Screen} />
+      <Stack.Screen name="AddLocation" component={AddLocationScreen} />
+      <Stack.Screen name="ChooseLocation" component={ChooseLocationScreen} />
+      <Stack.Screen name="SelectRealEstateType" component={SelectRealEstateTypeScreen} />
+      <Stack.Screen name="AccountInfo" component={AccountInfoScreen} />
       <Stack.Screen name="LoginForm" component={LoginFormScreen} />
       <Stack.Screen name="Register" component={RegisterScreen} />
       <Stack.Screen name="OTP" component={OTPScreen} />

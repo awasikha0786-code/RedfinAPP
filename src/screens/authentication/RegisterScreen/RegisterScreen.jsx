@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Text, Input, Icon } from '../../../components/common';
+import { scale, verticalScale, moderateScale } from '../../../utils/layout';
 
 const RegisterScreen = ({ navigation, style }) => {
   const [formData, setFormData] = useState({
@@ -31,8 +32,9 @@ const RegisterScreen = ({ navigation, style }) => {
 
   return (
     <SafeAreaView style={[styles.container, style]}>
-      <ScrollView 
+      <ScrollView
         style={styles.scrollView}
+        contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
       >
@@ -119,16 +121,19 @@ const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
   },
+  scrollContent: {
+    paddingBottom: verticalScale(40),
+  },
   backButton: {
     position: 'absolute',
-    top: 20,
-    left: 20,
+    top: verticalScale(20),
+    left: scale(20),
     zIndex: 1,
   },
   backButtonCircle: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
+    width: scale(50),
+    height: scale(50),
+    borderRadius: scale(25),
     backgroundColor: '#F5F4F8',
     justifyContent: 'center',
     alignItems: 'center',
@@ -139,50 +144,52 @@ const styles = StyleSheet.create({
     tintColor: '#333333',
   },
   header: {
-    paddingHorizontal: 20,
-    paddingTop: 120,
-    paddingBottom: 40,
+    paddingHorizontal: scale(24),
+    paddingTop: verticalScale(150),
+    paddingBottom: verticalScale(48),
   },
   title: {
-    fontSize: 32,
+    fontSize: moderateScale(30),
     fontWeight: '700',
     color: '#21628A',
-    marginBottom: 12,
+    marginBottom: verticalScale(20),
     textAlign: 'left',
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: moderateScale(14),
     color: '#666666',
-    lineHeight: 22,
+    lineHeight: verticalScale(22),
+    letterSpacing: 0.3,
     textAlign: 'left',
   },
   formContainer: {
-    paddingHorizontal: 20,
+    paddingHorizontal: scale(24),
+    paddingTop: verticalScale(12),
   },
   input: {
-    marginBottom: 20,
+    marginBottom: verticalScale(20),
   },
   
   actionLinks: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 40,
+    marginBottom: verticalScale(32),
     paddingHorizontal: 4,
   },
   linkText: {
-    fontSize: 14,
+    fontSize: moderateScale(14),
     color: '#21628A',
     fontWeight: '500',
   },
   registerButton: {
     backgroundColor: '#DE3341',
-    height: 56,
-    borderRadius: 12,
-    marginBottom: 20,
+    height: verticalScale(56),
+    borderRadius: scale(12),
+    marginBottom: verticalScale(24),
   },
   registerButtonText: {
     color: '#ffffff',
-    fontSize: 18,
+    fontSize: moderateScale(16),
     fontWeight: '600',
   },
 });

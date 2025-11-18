@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   skipButton: {
     width: 86,
     height: 38,
-    backgroundColor: '#DFDFDF',
+    backgroundColor: '#F5F4F8',
     borderRadius: 100,
     justifyContent: 'center',
     alignItems: 'center',
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     elevation: 6,
   },
   skipButtonText: {
-    color: '#666666',
+    color: '#1F4C6B',
     fontSize: FONT_SIZES.sm,
     fontWeight: '500',
     textTransform: 'lowercase',

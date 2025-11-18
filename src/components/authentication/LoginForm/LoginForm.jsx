@@ -1,38 +1,26 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
-import { CommonActions } from '@react-navigation/native';
-import { Button, Text, Input } from '../../common/index.js';
-import { Icon } from '../../common/index.js';
+import { Button, Text, Input, Icon } from '../../common/index.js';
+import { scale, verticalScale } from '../../../utils/layout';
 
 const LoginForm = ({ navigation, style }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  // Validation removed per request
 
-  const handleEmailChange = (value) => {
-    setEmail(value);
-  };
-
-  const handlePasswordChange = (value) => {
-    setPassword(value);
-  };
+  const handleEmailChange = (value) => setEmail(value);
+  const handlePasswordChange = (value) => setPassword(value);
 
   const handleLogin = () => {
-    // Navigate directly to MainStack (Home Screen) after login
-    navigation.getParent()?.dispatch(
-      CommonActions.reset({
-        index: 0,
-        routes: [{ name: 'MainStack' }],
-      })
-    );
+    navigation.navigate('AddLocation');
   };
 
   return (
     <View style={[styles.container, style]}>
       {/* Title */}
-      <Text variant="headline" style={styles.title}>
-        Let's Sign In
-      </Text>
+      <View style={styles.titleWrapper}>
+        <Text style={styles.title}>Let’s </Text>
+        <Text style={styles.titleHighlight}>Sign In</Text>
+      </View>
       
       {/* Subtitle */}
       <Text style={styles.subtitle}>
@@ -47,28 +35,24 @@ const LoginForm = ({ navigation, style }) => {
         icon="envelope"
         keyboardType="email-address"
         autoCapitalize="none"
-        style={styles.input}
+        style={styles.authInput}
       />
       
-
       {/* Password Input */}
       <Input
         placeholder="Password"
         value={password}
         onChangeText={handlePasswordChange}
-        icon="padlock"
+       icon="padlock"
         secureTextEntry
-        showPasswordToggle
-        style={styles.input}
+        style={styles.authInput}
       />
       
-
       {/* Password Options */}
       <View style={styles.passwordOptions}>
         <TouchableOpacity onPress={() => console.log('Forgot password')}>
           <Text style={styles.linkText}>Forgot password?</Text>
         </TouchableOpacity>
-        
         <TouchableOpacity onPress={() => console.log('Show password')}>
           <Text style={styles.linkText}>Show password</Text>
         </TouchableOpacity>
@@ -87,45 +71,70 @@ const LoginForm = ({ navigation, style }) => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 20,
-    paddingVertical: 20,
+    paddingHorizontal: scale(20),
+    paddingVertical: verticalScale(20),
+  },
+  titleWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: verticalScale(8),
+    gap: scale(2), // words ke darmiyan chhota space
   },
   title: {
-    fontSize: 28,
-    fontWeight: '700',
-    color: '#21628A',
-    textAlign: 'center',
-    marginBottom: 8,
+    fontFamily: 'Lato',
+    fontWeight: '400',
+    fontSize: scale(25),
+    lineHeight: verticalScale(40),
+    color: '#1F2A44',
+  },
+  titleHighlight: {
+    fontFamily: 'Lato',
+    fontWeight: '800',
+    fontSize: scale(25),
+    lineHeight: verticalScale(40),
+    color: '#1F4C6B',
   },
   subtitle: {
-    fontSize: 16,
+    fontFamily: 'Lato',
+    fontWeight: '400',
+    fontSize: scale(12),
+    lineHeight: verticalScale(20),
+    letterSpacing: 0.03 * 12,
     color: '#666666',
-    textAlign: 'center',
-    marginBottom: 32,
+    marginBottom: verticalScale(32),
+   // alignSelf: 'center',
+    maxWidth: scale(327), // screen me fit
+    //textAlign: 'center',
+    flexWrap: 'wrap',
   },
-  input: {
-    marginBottom: 16,
+  authInput: {
+    width: scale(327),
+    height: verticalScale(70),
+    borderRadius: 10,
+    alignSelf: 'center',
+    marginBottom: verticalScale(16),
   },
-  
   passwordOptions: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 24,
+    marginBottom: verticalScale(24),
   },
   linkText: {
-    fontSize: 14,
+    fontSize: scale(14),
     color: '#21628A',
     fontWeight: '500',
   },
   loginButton: {
     backgroundColor: '#DE3341',
-    height: 50,
-    borderRadius: 12,
-    marginBottom: 20,
+    width: scale(278),
+    height: verticalScale(63),
+    borderRadius: 10,
+    alignSelf: 'center',
+    marginBottom: verticalScale(20),
   },
   loginButtonText: {
     color: '#ffffff',
-    fontSize: 16,
+    fontSize: scale(16),
     fontWeight: '600',
   },
 });

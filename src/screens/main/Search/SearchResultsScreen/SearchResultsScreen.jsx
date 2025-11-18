@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import ScreenHeader from '../../../../components/common/ScreenHeader/ScreenHeader';
 import HomeListingCard from '../../../../components/common/HomeListingCard/HomeListingCard';
 import { useFavorites } from '../../../../context/FavoritesContext';
+import { scale, moderateScale } from '../../../../utils/layout';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -329,14 +330,24 @@ const SearchResultsScreen = ({ navigation, route }) => {
 				>
 					<View style={styles.emptyStateContainer}>
 						<View style={styles.emptyIconContainer}>
-							<View style={styles.emptyIconCircle}>
-								<Text style={styles.emptyIconText}>!</Text>
+							<View style={styles.emptyIconWrapper}>
+								<View style={styles.emptyIconBackgroundGlow} />
+								<View style={styles.emptyIconCircle}>
+									<Text style={styles.emptyIconText}>!</Text>
+								</View>
 							</View>
 						</View>
-						<Text style={styles.emptyStateTitle}>Search not found.</Text>
-						<Text style={styles.emptyStateMessage}>
-							Sorry, we can't find the real estates you are looking for. Maybe, a little spelling mistake?
-						</Text>
+						<View style={styles.emptyStateTitleContainer}>
+							<Text style={styles.emptyStateTitle}>
+								<Text style={styles.emptyStateTitleRegular}>Search </Text>
+								<Text style={styles.emptyStateTitleBold}>Not Found</Text>
+							</Text>
+						</View>
+						<View style={styles.emptyStateMessageContainer}>
+							<Text style={styles.emptyStateMessage}>
+								Sorry, we can't find the real estates you are looking for. Maybe, a little spelling mistake?
+							</Text>
+						</View>
 					</View>
 				</ScrollView>
 			)}
@@ -525,14 +536,39 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		marginBottom: 24,
 	},
+	emptyIconWrapper: {
+		position: 'relative',
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	emptyIconBackgroundGlow: {
+		position: 'absolute',
+		width: scale(142),
+		height: scale(142),
+		borderRadius: scale(71),
+		backgroundColor: '#8BC83F',
+		opacity: 0.1,
+		top: scale(-36),
+		left: scale(-36),
+		shadowColor: '#8BC83F',
+		shadowOffset: {
+			width: 0,
+			height: 0,
+		},
+		shadowOpacity: 0.5,
+		shadowRadius: 10,
+		elevation: 0,
+	},
 	emptyIconCircle: {
-		width: 80,
-		height: 80,
-		borderRadius: 40,
-		backgroundColor: '#4CAF50',
+		width: scale(70),
+		height: scale(70),
+		borderRadius: scale(35),
+		backgroundColor: '#8BC83F',
 		justifyContent: 'center',
 		alignItems: 'center',
-		shadowColor: '#4CAF50',
+		opacity: 1,
+		zIndex: 1,
+		shadowColor: '#8BC83F',
 		shadowOffset: {
 			width: 0,
 			height: 4,
@@ -546,19 +582,60 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
 		color: '#FFFFFF',
 	},
-	emptyStateTitle: {
-		fontSize: SCREEN_WIDTH < 360 ? 20 : 24, // Responsive font size
-		fontWeight: '700',
-		color: '#14233A',
+	emptyStateTitleContainer: {
+		width: '100%',
+		maxWidth: scale(280),
+		height: scale(40),
+		opacity: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		marginTop: scale(16),
 		marginBottom: 12,
+		paddingHorizontal: scale(10),
+		alignSelf: 'center',
+	},
+	emptyStateTitle: {
+		fontFamily: 'Lato',
+		fontSize: moderateScale(25),
+		lineHeight: scale(40),
+		letterSpacing: moderateScale(25 * 0.03),
 		textAlign: 'center',
+		color: '#252B5C',
+		flexWrap: 'wrap',
+	},
+	emptyStateTitleRegular: {
+		fontFamily: 'Lato',
+		fontWeight: '500',
+		fontSize: moderateScale(25),
+		lineHeight: scale(40),
+		letterSpacing: moderateScale(25 * 0.03),
+		color: '#252B5C',
+	},
+	emptyStateTitleBold: {
+		fontFamily: 'Lato',
+		fontWeight: '800',
+		fontSize: moderateScale(25),
+		lineHeight: scale(40),
+		letterSpacing: moderateScale(25 * 0.03),
+		color: '#252B5C',
+	},
+	emptyStateMessageContainer: {
+		width: scale(297),
+		height: scale(40),
+		opacity: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		alignSelf: 'center',
+		marginTop: scale(8),
 	},
 	emptyStateMessage: {
-		fontSize: SCREEN_WIDTH < 360 ? 12 : 14, // Responsive font size
+		fontFamily: 'Raleway',
 		fontWeight: '400',
-		color: '#6C7380',
+		fontSize: scale(12),
+		lineHeight: scale(20),
+		letterSpacing: moderateScale(12 * 0.03),
 		textAlign: 'center',
-		lineHeight: 20,
+		color: '#53587A',
 	},
 });
 

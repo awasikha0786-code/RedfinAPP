@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, ScrollView, TouchableOpacity, Text } from 'react-native';
-import { LoginTopBar, LoginForm, SocialLoginButtons } from '../../../components/authentication/index.js';
+import { LoginTopBar, LoginForm, SocialLoginButtons } from '../../../components/authentication';
+import { scale, verticalScale, moderateScale } from '../../../utils/layout';
 
 const LoginFormScreen = ({ navigation }) => {
   const handleRegister = () => {
@@ -20,7 +21,11 @@ const LoginFormScreen = ({ navigation }) => {
       {/* Header with Illustration */}
       <LoginTopBar />
       
-      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        style={styles.content}
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
         {/* Login Form */}
         <LoginForm
           navigation={navigation}
@@ -36,12 +41,14 @@ const LoginFormScreen = ({ navigation }) => {
         
         {/* Register Link */}
         <View style={styles.registerContainer}>
-          <Text style={styles.registerText}>
-            Don't have an account?{' '}
+          <View style={styles.registerTextContainer}>
+            <Text style={styles.registerText}>
+              Don't have an account?{' '}
+            </Text>
             <TouchableOpacity onPress={handleRegister}>
               <Text style={styles.registerLink}>Register</Text>
             </TouchableOpacity>
-          </Text>
+          </View>
         </View>
       </ScrollView>
     </View>
@@ -56,24 +63,33 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
   },
+  scrollContent: {
+    paddingHorizontal: scale(24),
+    paddingBottom: verticalScale(32),
+  },
   loginForm: {
-    paddingTop: 20,
+    paddingTop: verticalScale(20),
   },
   socialButtons: {
-    paddingTop: 0,
+    paddingTop: verticalScale(8),
   },
   registerContainer: {
     alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 20,
+    paddingHorizontal: scale(12),
+    paddingVertical: verticalScale(20),
+  },
+  registerTextContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
   },
   registerText: {
-    fontSize: 14,
+    fontSize: moderateScale(14),
     color: '#666666',
-    textAlign: 'center',
   },
   registerLink: {
-    fontSize: 14,
+    fontSize: moderateScale(14),
     color: '#21628A',
     fontWeight: '600',
   },

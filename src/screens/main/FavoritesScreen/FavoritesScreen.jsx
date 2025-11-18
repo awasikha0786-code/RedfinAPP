@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { View, StyleSheet, ScrollView, Text, TouchableOpacity, Image, Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Swipeable } from 'react-native-gesture-handler';
+import LinearGradient from 'react-native-linear-gradient';
 import HomeListingCard from '../../../components/common/HomeListingCard/HomeListingCard';
 import ConfirmationBottomSheet from '../../../components/common/buttomSheet/ConfirmationBottomSheet';
 import { useFavorites } from '../../../context/FavoritesContext';
+import { scale, moderateScale } from '../../../utils/layout';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -105,7 +107,7 @@ const FavoritesScreen = ({ navigation }) => {
 						activeOpacity={0.7}
 					>
 						<Image
-							source={require('../../../assets/icons/list.png')}
+							source={require('../../../assets/icons/Horizontal - Active.png')}
 							style={[styles.listIcon, viewMode === 'list' && styles.activeListIcon]}
 							resizeMode="contain"
 						/>
@@ -206,15 +208,37 @@ const FavoritesScreen = ({ navigation }) => {
 			) : (
 				<View style={styles.emptyStateContainer}>
 					<View style={styles.emptyIconContainer}>
-						<View style={styles.emptyIconCircle}>
-							<Text style={styles.emptyIconText}>+</Text>
+						<View style={styles.emptyIconWrapper}>
+							<LinearGradient
+								colors={['#234F68', '#234F68', '#8BC83F']}
+								locations={[0, 0.0469, 0.9831]}
+								start={{ x: 0, y: -0.16 }}
+								end={{ x: 1.16, y: 1.16 }}
+								style={styles.emptyIconBackgroundGlow}
+							/>
+							<LinearGradient
+								colors={['#234F68', '#234F68', '#8BC83F']}
+								locations={[0, 0.0469, 0.9831]}
+								start={{ x: 0, y: -0.16 }}
+								end={{ x: 1.16, y: 1.16 }}
+								style={styles.emptyIconCircle}
+							>
+								<Text style={styles.emptyIconText}>+</Text>
+							</LinearGradient>
 						</View>
 					</View>
-					<Text style={styles.emptyStateTitle}>You haven't saved any</Text>
-					<Text style={styles.emptyStateHighlight}>homes yet</Text>
-					<Text style={styles.emptyStateMessage}>
-						Tap the save icon while browsing to add homes to your favorites.
-					</Text>
+					<View style={styles.emptyStateTitleContainer}>
+						<Text style={styles.emptyStateTitle}>
+							<Text style={styles.emptyStateTitleRegular}>You haven't saved any </Text>
+							<Text style={styles.emptyStateTitleBold}>homes</Text>
+							<Text style={styles.emptyStateTitleRegular}> yet</Text>
+						</Text>
+					</View>
+					<View style={styles.emptyStateMessageContainer}>
+						<Text style={styles.emptyStateMessage}>
+							Tap the save icon while browsing to add homes to your favorites.
+						</Text>
+					</View>
 				</View>
 			)}
 
@@ -291,26 +315,45 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		backgroundColor: '#F5F4F8',
-		borderRadius: 8,
+		borderRadius: scale(100),
+		width: scale(93),
+		height: scale(40),
+		opacity: 1,
+		padding: scale(8),
+		gap: scale(4),
 		overflow: 'hidden',
 	},
 	viewButton: {
-		width: 36,
-		height: 36,
+		width: scale(36),
+		height: scale(24),
 		justifyContent: 'center',
 		alignItems: 'center',
 		backgroundColor: 'transparent',
+		borderRadius: scale(100),
+		opacity: 1,
+		paddingTop: scale(6),
+		paddingRight: scale(12),
+		paddingBottom: scale(6),
+		paddingLeft: scale(12),
 	},
 	viewButtonLeft: {
-		borderTopLeftRadius: 8,
-		borderBottomLeftRadius: 8,
+		borderTopLeftRadius: scale(100),
+		borderBottomLeftRadius: scale(100),
 	},
 	viewButtonRight: {
-		borderTopRightRadius: 8,
-		borderBottomRightRadius: 8,
+		borderTopRightRadius: scale(100),
+		borderBottomRightRadius: scale(100),
 	},
 	activeViewButton: {
-		backgroundColor: '#21628A',
+		backgroundColor: '#FFFFFF',
+		shadowColor: '#000',
+		shadowOffset: {
+			width: 0,
+			height: 2,
+		},
+		shadowOpacity: 0.15,
+		shadowRadius: 4,
+		elevation: 4,
 	},
 	gridIconContainer: {
 		width: 16,
@@ -329,7 +372,7 @@ const styles = StyleSheet.create({
 		marginRight: 2,
 	},
 	activeGridCell: {
-		backgroundColor: '#ffffff',
+		backgroundColor: '#21628A',
 	},
 	listIcon: {
 		width: 16,
@@ -337,7 +380,7 @@ const styles = StyleSheet.create({
 		tintColor: '#6C7380',
 	},
 	activeListIcon: {
-		tintColor: '#ffffff',
+		tintColor: '#21628A',
 	},
 	scrollView: {
 		flex: 1,
@@ -493,14 +536,37 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		marginBottom: 32,
 	},
+	emptyIconWrapper: {
+		position: 'relative',
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	emptyIconBackgroundGlow: {
+		position: 'absolute',
+		width: scale(142),
+		height: scale(142),
+		borderRadius: scale(71),
+		opacity: 0.1,
+		top: scale(-36),
+		left: scale(-36),
+		shadowColor: '#8BC83F',
+		shadowOffset: {
+			width: 0,
+			height: 0,
+		},
+		shadowOpacity: 0.7,
+		shadowRadius: 50,
+		elevation: 0,
+	},
 	emptyIconCircle: {
-		width: 100,
-		height: 100,
-		borderRadius: 50,
-		backgroundColor: '#4CAF50',
+		zIndex: 1,
+		width: scale(70),
+		height: scale(70),
+		borderRadius: scale(35),
+		opacity: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
-		shadowColor: '#4CAF50',
+		shadowColor: '#8BC83F',
 		shadowOffset: {
 			width: 0,
 			height: 4,
@@ -510,32 +576,64 @@ const styles = StyleSheet.create({
 		elevation: 8,
 	},
 	emptyIconText: {
-		fontSize: 48,
-		fontWeight: '300',
+		fontFamily: 'Montserrat',
+		fontWeight: '400',
+		fontSize: moderateScale(30),
+		lineHeight: moderateScale(30),
+		letterSpacing: moderateScale(30 * 0.03),
+		textAlign: 'center',
 		color: '#FFFFFF',
-		lineHeight: 56,
+		opacity: 1,
+	},
+	emptyStateTitleContainer: {
+		width: scale(297),
+		height: scale(80),
+		opacity: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		marginBottom: 16,
+		alignSelf: 'center',
 	},
 	emptyStateTitle: {
-		fontSize: 24,
-		fontWeight: '700',
-		color: '#14233A',
-		marginBottom: 4,
+		fontFamily: 'Lato',
+		fontSize: moderateScale(25),
+		lineHeight: scale(40),
+		letterSpacing: moderateScale(25 * 0.03),
 		textAlign: 'center',
+		color: '#252B5C',
 	},
-	emptyStateHighlight: {
-		fontSize: 28,
-		fontWeight: '800',
-		color: '#14233A',
-		marginBottom: 16,
-		textAlign: 'center',
+	emptyStateTitleRegular: {
+		fontFamily: 'Lato',
+		fontWeight: '500',
+		fontSize: moderateScale(25),
+		lineHeight: scale(40),
+		letterSpacing: moderateScale(25 * 0.03),
+		color: '#252B5C',
+	},
+	emptyStateTitleBold: {
+		fontFamily: 'Lato',
+		fontWeight: '900',
+		fontSize: moderateScale(25),
+		lineHeight: scale(40),
+		letterSpacing: moderateScale(25 * 0.03),
+		color: '#252B5C',
+	},
+	emptyStateMessageContainer: {
+		width: scale(297),
+		height: scale(40),
+		opacity: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		alignSelf: 'center',
 	},
 	emptyStateMessage: {
-		fontSize: 14,
+		fontFamily: 'Lato',
 		fontWeight: '400',
-		color: '#6C7380',
+		fontSize: scale(12),
+		lineHeight: scale(20),
+		letterSpacing: moderateScale(12 * 0.03),
 		textAlign: 'center',
-		lineHeight: 20,
-		paddingHorizontal: 20,
+		color: '#53587A',
 	},
 });
 

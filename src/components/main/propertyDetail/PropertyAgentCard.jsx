@@ -3,13 +3,13 @@ import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
 
 const EMAIL_ICON = require('../../../assets/icons/message.png');
 
-const PropertyAgentCard = ({ agent }) => {
+const PropertyAgentCard = ({ agent, onPress }) => {
   if (!agent) {
     return null;
   }
 
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container} activeOpacity={0.9} onPress={onPress}>
       <View style={styles.leftSection}>
         <Image source={agent.avatar} style={styles.avatar} resizeMode="cover" />
         <View>
@@ -22,7 +22,7 @@ const PropertyAgentCard = ({ agent }) => {
           <Image source={EMAIL_ICON} style={[styles.actionIcon, styles.emailIcon]} resizeMode="contain" />
         </TouchableOpacity>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

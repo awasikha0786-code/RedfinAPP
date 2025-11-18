@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, StyleSheet } from 'react-native';
 
-const Icon = ({ name, style, size = 24, color = '#21628A' }) => {
+const Icon = ({ name, style = {}, size = 24, color = '#21628A' }) => {
   const getIconSource = () => {
     switch (name) {
       case 'envelope':
@@ -18,6 +18,15 @@ const Icon = ({ name, style, size = 24, color = '#21628A' }) => {
         return require('../../../assets/icons/google.png');
       case 'facebook':
         return require('../../../assets/icons/facebook.png');
+      case 'search':
+        return require('../../../assets/icons/search.png');
+      case 'mic':
+        return require('../../../assets/icons/mic.png');
+      case 'centerLocation':
+      case 'Center Location':
+        return require('../../../assets/icons/Center Location.png');
+      case 'right':
+        return require('../../../assets/icons/Right.png');
       case 'arrow':
         return require('../../../assets/icons/arrow.png');
       case 'backArrow':
@@ -34,8 +43,12 @@ const Icon = ({ name, style, size = 24, color = '#21628A' }) => {
         return require('../../../assets/icons/Home.png');
       case 'location':
         return require('../../../assets/icons/Location.png');
+      case 'microphone':
+        return require('../../../assets/icons/mic.png');
       case 'card':
         return require('../../../assets/icons/Wallet.png');
+      case 'message':
+        return require('../../../assets/icons/message.png');
       default:
         return require('../../../assets/icons/arrow.png');
     }

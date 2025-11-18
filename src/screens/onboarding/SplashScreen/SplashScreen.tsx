@@ -4,6 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Button } from '../../../components/common/Button';
 import { COLORS, BUTTON_SIZES } from '../../../constants/index';
 import LinearGradient from 'react-native-linear-gradient';
+import { scale, verticalScale, moderateScale, responsiveWidth } from '../../../utils/layout';
 
 interface SplashScreenProps {
   navigation: any; // TODO: Add proper navigation type
@@ -17,15 +18,16 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ navigation }) => {
     navigation.navigate('ProductTour1');
   };
 
-  const logoWidth = Math.max(160, Math.min(width * 0.52, 220));
+  const logoWidth = Math.max(scale(150), Math.min(width * 0.52, scale(220)));
   const logoHeight = logoWidth * 0.2;
-  const poweredByFontSize = Math.max(16, Math.min(18, width * 0.045));
+  const poweredByFontSize = Math.max(moderateScale(14), Math.min(18, width * 0.045));
   const poweredByLetterSpacing = -(poweredByFontSize * 0.03);
-  const poweredByMarginTop = Math.max(3, Math.min(12, height * 0.01));
-  const buttonWidth = Math.max(BUTTON_SIZES.large.width, Math.min(width * 0.55, 240));
-  const buttonHeight = Math.max(BUTTON_SIZES.large.height, Math.min(height * 0.08, 60));
-  const beginButtonFontSize = Math.max(16, Math.min(18, width * 0.042));
-  const versionFontSize = Math.max(12, Math.min(14, width * 0.03));
+  const poweredByMarginTop = Math.max(verticalScale(3), Math.min(verticalScale(12), height * 0.01));
+  const buttonWidth = Math.max(scale(BUTTON_SIZES.large.width), Math.min(responsiveWidth(70), scale(260)));
+  const buttonHeight = Math.max(verticalScale(BUTTON_SIZES.large.height), Math.min(verticalScale(64), verticalScale(68)));
+  const beginButtonFontSize = Math.max(moderateScale(16), Math.min(18, width * 0.042));
+  const versionFontSize = Math.max(moderateScale(11), Math.min(14, width * 0.03));
+  const contentHorizontalPadding = Math.max(scale(20), responsiveWidth(8));
 
   return (
     <View style={styles.splashContainer}>
@@ -43,7 +45,16 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ navigation }) => {
         />
       </ImageBackground>
 
-      <View style={[styles.contentWrapper, { paddingTop: insets.top + 60, paddingBottom: Math.max(24, insets.bottom + 24) }]}>
+      <View
+        style={[
+          styles.contentWrapper,
+          {
+            paddingTop: insets.top + verticalScale(56),
+            paddingBottom: Math.max(verticalScale(24), insets.bottom + verticalScale(16)),
+            paddingHorizontal: contentHorizontalPadding,
+          },
+        ]}
+      >
         <View style={styles.logoBlock}>
           <Image
             source={require('../../../assets/icons/splash_icon.png')}
@@ -68,15 +79,20 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ navigation }) => {
           <Button
             title="let's begin"
             onPress={handleBeginPress}
-            style={{
-              ...styles.beginButton,
-              width: buttonWidth,
-              height: buttonHeight,
-            }}
-            textStyle={{
-              ...styles.beginButtonText,
-              fontSize: beginButtonFontSize,
-            }}
+            style={[
+              styles.beginButton,
+              {
+                width: buttonWidth,
+                height: buttonHeight,
+                borderRadius: scale(18),
+              },
+            ]}
+            textStyle={[
+              styles.beginButtonText,
+              {
+                fontSize: beginButtonFontSize,
+              },
+            ]}
           />
           <Text style={[styles.versionText, { fontSize: versionFontSize }]}>Version 2.1.9</Text>
         </View>
@@ -101,7 +117,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 32,
     position: 'relative',
   },
   logoBlock: {
@@ -110,8 +125,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   logo: {
-    width: 196,
-    height: 39,
+    width: scale(196),
+    height: scale(39),
   },
   buttonBlock: {
     width: '100%',
@@ -120,7 +135,7 @@ const styles = StyleSheet.create({
   beginButton: {
     width: BUTTON_SIZES.large.width,
     height: BUTTON_SIZES.large.height,
-    borderRadius: 18,
+    borderRadius: scale(18),
     backgroundColor: '#DE3341',
   },
   beginButtonText: {
@@ -134,7 +149,7 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
     textAlign: 'center',
     color: '#ffffff',
-    marginLeft: 30,
+    marginLeft: scale(12),
   },
   versionText: {
     marginTop: 24,

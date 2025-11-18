@@ -2,8 +2,9 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { View, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { CommonActions } from '@react-navigation/native';
-import { Button, Text, Icon } from '../../../components/common';
+import { Text, Icon } from '../../../components/common';
 import { OTPInput } from '../../../components/authentication';
+import { scale, verticalScale, moderateScale } from '../../../utils/layout';
 
 const OTPScreen = ({ navigation }) => {
   const email = 'jonathan@email.com'; // Default email, can be passed from navigation params later
@@ -11,6 +12,7 @@ const OTPScreen = ({ navigation }) => {
   
   const [otp, setOtp] = useState(['', '', '', '']);
   const [secondsLeft, setSecondsLeft] = useState(initialSeconds);
+  const [autoSubmitted, setAutoSubmitted] = useState(false);
 
   useEffect(() => {
     const t = setInterval(() => setSecondsLeft(s => (s > 0 ? s - 1 : 0)), 1000);
@@ -27,14 +29,7 @@ const OTPScreen = ({ navigation }) => {
   }, [secondsLeft]);
 
   const handleVerify = () => {
-    // Navigate to MainStack (Home Screen) after OTP verification
-    // Get root navigator to navigate between AuthStack and MainStack
-    navigation.getParent()?.dispatch(
-      CommonActions.reset({
-        index: 0,
-        routes: [{ name: 'MainStack' }],
-      })
-    );
+    navigation.navigate('LoginForm');
   };
 
   const handleBack = () => {
@@ -45,6 +40,13 @@ const OTPScreen = ({ navigation }) => {
     setSecondsLeft(initialSeconds);
     console.log('Resend OTP');
   };
+
+  useEffect(() => {
+    if (isFilled && !autoSubmitted) {
+      setAutoSubmitted(true);
+      handleVerify();
+    }
+  }, [isFilled, autoSubmitted]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -91,13 +93,6 @@ const OTPScreen = ({ navigation }) => {
               Resend OTP
             </Text>
           </Text>
-
-          <Button
-            title="Verify"
-            onPress={handleVerify}
-            style={styles.verifyButton}
-            textStyle={styles.verifyButtonText}
-          />
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -107,50 +102,50 @@ const OTPScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#ffffff' },
   scrollView: { flex: 1 },
-  contentContainer: { flexGrow: 1, paddingBottom: 16 },
-  backButton: { position: 'absolute', top: 20, left: 20, zIndex: 1 },
+  contentContainer: { flexGrow: 1, paddingBottom: verticalScale(24) },
+  backButton: { position: 'absolute', top: verticalScale(20), left: scale(20), zIndex: 1 },
   backButtonCircle: {
-    width: 50, height: 50, borderRadius: 25, backgroundColor: '#F5F4F8',
+    width: scale(50), height: scale(50), borderRadius: scale(25), backgroundColor: '#F5F4F8',
     justifyContent: 'center', alignItems: 'center',
   },
-  backIcon: { width: 20, height: 20, tintColor: '#333333' },
-  header: { paddingHorizontal: 24, paddingTop: 120, paddingBottom: 24 },
-  title: { 
+  backIcon: { width: scale(20), height: scale(20), tintColor: '#333333' },
+  header: { paddingHorizontal: scale(24), paddingTop: verticalScale(120), paddingBottom: verticalScale(24) },
+  title: {
     fontFamily: 'Lato',
-    fontSize: 25, 
-    fontWeight: '700', 
-    color: '#14233A', 
-    marginBottom: 12,
-    lineHeight: 40,
-    letterSpacing: 0.75, // 3% of 25px
+    fontSize: moderateScale(25),
+    fontWeight: '500',
+    color: '#252B5C',
+    marginBottom: verticalScale(12),
+    lineHeight: verticalScale(40),
+    letterSpacing: 0.75,
+    width: scale(173),
+    height: verticalScale(40),
   },
   titleEmphasis: { 
-    color: '#21628A',
+    color: '#204D6C',
     fontWeight: '800',
     fontFamily: 'Lato',
   },
-  subtitle: { fontSize: 16, color: '#6C7380', marginBottom: 8, marginTop: 20 },
-  email: { fontSize: 16, color: '#162A46', fontWeight: '600', marginTop: 12 },
+  subtitle: { fontSize: moderateScale(14), color: '#6C7380', marginBottom: verticalScale(8), marginTop: verticalScale(20) },
+  email: { fontSize: moderateScale(14), color: '#162A46', fontWeight: '600', marginTop: verticalScale(12) },
   bottomSection: {
     flex: 1,
     justifyContent: 'flex-end',
-    paddingHorizontal: 24,
+    paddingHorizontal: scale(24),
   },
   timerPill: {
     alignSelf: 'center', flexDirection: 'row', alignItems: 'center',
-    paddingHorizontal: 24, paddingVertical: 14, borderRadius: 28, backgroundColor: '#F5F4F8',
+    paddingHorizontal: scale(24), paddingVertical: verticalScale(14), borderRadius: scale(28), backgroundColor: '#F5F4F8',
   },
-  timerIcon: { width: 18, height: 18, tintColor: '#1F265E', marginRight: 8 },
+  timerIcon: { width: scale(18), height: scale(18), tintColor: '#1F265E', marginRight: scale(8) },
   timerText: { color: '#1F265E', fontWeight: '600' },
-  resend: { textAlign: 'center', color: '#6C7380', marginTop: 20, marginBottom: 24 },
+  resend: { textAlign: 'center', color: '#6C7380', marginTop: verticalScale(20), marginBottom: verticalScale(8) },
   resendLink: { color: '#1B516B', fontWeight: '700' },
   otpContainer: {
     alignItems: 'center',
-    marginVertical: 20,
-    marginTop: 16,
+    marginVertical: verticalScale(20),
+    marginTop: verticalScale(16),
   },
-  verifyButton: { backgroundColor: '#DE3341', height: 56, borderRadius: 12, marginHorizontal: 24, marginTop: 12, marginBottom: 32 },
-  verifyButtonText: { color: '#ffffff', fontSize: 18, fontWeight: '600' },
 });
 
 export default OTPScreen;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
 
-const HomeListingCard = ({ property, onPress, compact = false, onFavoritePress, isFavorite = false, customStyle }) => {
+const HomeListingCard = ({ property, onPress, compact = false, onFavoritePress, isFavorite = false, customStyle, imageContainerStyle, titleStyle, priceStyle }) => {
 	const handleHeartPress = (e) => {
 		e.stopPropagation();
 		if (onFavoritePress) {
@@ -24,11 +24,12 @@ const HomeListingCard = ({ property, onPress, compact = false, onFavoritePress, 
 				styles.imageContainer, 
 				compact && styles.imageContainerCompact, 
 				customStyle && styles.imageContainerCustom,
-				customStyle && { height: imageHeight }
+				customStyle && { height: imageHeight },
+				imageContainerStyle
 			]}>
 				<Image 
 					source={property.image} 
-					style={styles.image}
+					style={[styles.image, imageContainerStyle && { borderRadius: imageContainerStyle.borderRadius }]}
 					resizeMode="cover"
 				/>
 				{/* Heart Icon Overlay - Top Left */}
@@ -52,9 +53,11 @@ const HomeListingCard = ({ property, onPress, compact = false, onFavoritePress, 
 			</View>
 
 			{/* Right Content Section */}
-			<View style={[styles.contentContainer, compact && styles.contentContainerCompact]}>
+			<View style={[styles.contentContainer, compact && styles.contentContainerCompact, titleStyle && { paddingTop: 0, justifyContent: 'flex-start' }]}>
 				{/* Title */}
-				<Text style={[styles.titleText, compact && styles.titleTextCompact]}>{property.title}</Text>
+				<View style={titleStyle && { width: titleStyle.width, height: titleStyle.height, marginTop: titleStyle.marginTop || 8, marginBottom: 8 }}>
+					<Text style={[styles.titleText, compact && styles.titleTextCompact, titleStyle]} numberOfLines={2}>{property.title}</Text>
+				</View>
 
 				{/* Star Rating */}
 				<View style={[styles.ratingContainer, compact && styles.ratingContainerCompact]}>
@@ -74,10 +77,11 @@ const HomeListingCard = ({ property, onPress, compact = false, onFavoritePress, 
 
 				{/* Price - Hidden in compact mode */}
 				{!compact && property.price && (
-					<Text style={styles.priceText}>
-						$ {property.price.toLocaleString()}
-						{property.priceUnit && <Text style={styles.priceUnit}>/{property.priceUnit}</Text>}
-					</Text>
+					<View style={priceStyle && { width: priceStyle.width, height: priceStyle.height }}>
+						<Text style={[styles.priceText, priceStyle]} numberOfLines={1}>
+							$ {typeof property.price === 'number' ? property.price.toLocaleString() : property.price}
+						</Text>
+					</View>
 				)}
 			</View>
 		</TouchableOpacity>

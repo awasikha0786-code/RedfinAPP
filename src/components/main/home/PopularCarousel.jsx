@@ -3,7 +3,7 @@ import { View, StyleSheet, Text, ScrollView, Image, TouchableOpacity } from 'rea
 import { useFavorites } from '../../../context/FavoritesContext';
 import { moderateScale, responsiveWidth, scale, verticalScale } from '../../../utils/layout';
 
-const PopularCarousel = () => {
+const PopularCarousel = ({ onPropertyPress }) => {
 	const { addToFavorites, removeFromFavorites, isFavorite } = useFavorites();
 	const properties = [
 		{
@@ -40,9 +40,11 @@ const PopularCarousel = () => {
 				contentContainerStyle={styles.scrollContent}
 			>
 				{properties.map((property) => (
-					<View 
+						<TouchableOpacity 
 						key={property.id} 
 						style={styles.card}
+                        activeOpacity={0.85}
+                        onPress={() => onPropertyPress?.(property)}
 					>
 						{/* Left Image Section */}
 						<View style={styles.imageContainer}>
@@ -123,7 +125,7 @@ const PopularCarousel = () => {
 							{/* Price */}
 							{property.price && <Text style={styles.priceText}>$ {property.price.toLocaleString()}</Text>}
 						</View>
-					</View>
+					</TouchableOpacity>
 				))}
 			</ScrollView>
 		</View>
