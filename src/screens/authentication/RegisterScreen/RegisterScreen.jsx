@@ -154,6 +154,8 @@ const styles = StyleSheet.create({
     color: '#21628A',
     marginBottom: verticalScale(20),
     textAlign: 'left',
+    lineHeight: moderateScale(38),
+    paddingTop: 4,
   },
   subtitle: {
     fontSize: moderateScale(14),

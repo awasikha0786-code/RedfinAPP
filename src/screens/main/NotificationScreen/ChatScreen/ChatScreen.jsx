@@ -46,19 +46,23 @@ const ChatScreen = ({ navigation, route }) => {
       </View>
 
       <KeyboardAvoidingView behavior={Platform.select({ ios: 'padding', android: undefined })} keyboardVerticalOffset={80} style={{ flex: 1 }}>
-        <ScrollView ref={scrollRef} contentContainerStyle={{ paddingVertical: 16, flexGrow: 1 }} showsVerticalScrollIndicator={false} onContentSizeChange={() => scrollRef.current?.scrollToEnd({ animated: true })}>
-          {messages.map(m => (
-            <MessageBubble key={m.id} text={m.text} time={m.time} isOwn={m.own} status={m.status} />
-          ))}
-        </ScrollView>
-        <ChatInput value={message} onChangeText={setMessage} onSendPress={handleSend} />
+        <View style={styles.chatContainer}>
+          <ScrollView ref={scrollRef} style={styles.messagesArea} contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false} onContentSizeChange={() => scrollRef.current?.scrollToEnd({ animated: true })}>
+            {messages.map(m => (
+              <MessageBubble key={m.id} text={m.text} time={m.time} isOwn={m.own} status={m.status} />
+            ))}
+          </ScrollView>
+          <View style={styles.inputContainer}>
+            <ChatInput value={message} onChangeText={setMessage} onSendPress={handleSend} />
+          </View>
+        </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#F5F6FA' },
+  container: { flex: 1, backgroundColor: '#FFFFFF' },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -67,7 +71,12 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     backgroundColor: '#FFFFFF',
   },
-  userInfo: { flexDirection: 'row', alignItems: 'center', gap: 5 },
+  userInfo: { 
+    flexDirection: 'row', 
+    alignItems: 'center', 
+    gap: 5,
+    marginLeft: -60,
+  },
   avatar: { width: 44, height: 44, borderRadius: 22 },
   name: { fontSize: 18, fontWeight: '700', color: '#14233A' },
   status: { fontSize: 14, color: '#3A6A7E', marginTop: 2 },
@@ -75,6 +84,33 @@ const styles = StyleSheet.create({
   iconCircle: { width: 50, height: 50, borderRadius: 25, backgroundColor: '#F5F4F8', justifyContent: 'center', alignItems: 'center' },
   backIcon: { width: 20, height: 20, tintColor: '#14233A' },
   callIcon: { width: 20, height: 20, tintColor: '#14233A' },
+  chatContainer: {
+    width: 360,
+    height: 850,
+    borderRadius: 50,
+    opacity: 1,
+    marginTop: -10,
+    borderWidth: 10,
+    borderColor: '#FFFFFF',
+    backgroundColor: '#F5F4F8',
+    overflow: 'hidden',
+    alignSelf: 'center',
+    flex: 1,
+  },
+  messagesArea: {
+    flex: 1,
+    minHeight: 600,
+  },
+  scrollContent: {
+    paddingTop: 100,
+    paddingBottom: 16,
+    paddingHorizontal: 12,
+    flexGrow: 1,
+  },
+  inputContainer: {
+    marginTop: -80,
+    alignItems: 'center',
+  },
 });
 
 export default ChatScreen;

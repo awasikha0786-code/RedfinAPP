@@ -29,9 +29,23 @@ const AddReviewScreen = ({ navigation, route }) => {
   const [photos, setPhotos] = useState([]);
   const [successSheetVisible, setSuccessSheetVisible] = useState(false);
 
+  // Ensure navigation and route are available
+  if (!navigation) {
+    console.error('AddReviewScreen: navigation prop is missing');
+  }
+  if (!route) {
+    console.error('AddReviewScreen: route prop is missing');
+  }
+
   const handleBack = () => {
-    if (navigation?.canGoBack()) {
-      navigation.goBack();
+    try {
+      if (navigation?.canGoBack && navigation.canGoBack()) {
+        navigation.goBack();
+      } else if (navigation?.goBack) {
+        navigation.goBack();
+      }
+    } catch (error) {
+      console.error('Error navigating back:', error);
     }
   };
 
@@ -40,35 +54,45 @@ const AddReviewScreen = ({ navigation, route }) => {
   };
 
   const handleAddPhoto = () => {
-    if (photos.length >= MAX_PHOTOS) {
-      Alert.alert('Limit reached', `You can upload up to ${MAX_PHOTOS} photos.`);
-      return;
-    }
-
-    launchImageLibrary(
-      {
-        mediaType: 'photo',
-        selectionLimit: MAX_PHOTOS - photos.length,
-        quality: 0.85,
-      },
-      (response) => {
-        if (response.didCancel) {
-          return;
-        }
-        if (response.errorCode) {
-          Alert.alert('Error', response.errorMessage || 'Something went wrong while picking the photo.');
-          return;
-        }
-
-        if (response.assets && response.assets.length > 0) {
-          const newPhotos = response.assets.map((asset, index) => ({
-            id: `photo-${Date.now()}-${index}`,
-            uri: asset.uri,
-          }));
-          setPhotos((prev) => [...prev, ...newPhotos].slice(0, MAX_PHOTOS));
-        }
+    try {
+      if (photos.length >= MAX_PHOTOS) {
+        Alert.alert('Limit reached', `You can upload up to ${MAX_PHOTOS} photos.`);
+        return;
       }
-    );
+
+      launchImageLibrary(
+        {
+          mediaType: 'photo',
+          selectionLimit: MAX_PHOTOS - photos.length,
+          quality: 0.85,
+        },
+        (response) => {
+          try {
+            if (response.didCancel) {
+              return;
+            }
+            if (response.errorCode) {
+              Alert.alert('Error', response.errorMessage || 'Something went wrong while picking the photo.');
+              return;
+            }
+
+            if (response.assets && response.assets.length > 0) {
+              const newPhotos = response.assets.map((asset, index) => ({
+                id: `photo-${Date.now()}-${index}`,
+                uri: asset.uri,
+              }));
+              setPhotos((prev) => [...prev, ...newPhotos].slice(0, MAX_PHOTOS));
+            }
+          } catch (error) {
+            console.error('Error processing image picker response:', error);
+            Alert.alert('Error', 'Failed to process selected images.');
+          }
+        }
+      );
+    } catch (error) {
+      console.error('Error launching image library:', error);
+      Alert.alert('Error', 'Failed to open image picker.');
+    }
   };
 
   const handleRemovePhoto = (photoId) => {
@@ -96,10 +120,16 @@ const AddReviewScreen = ({ navigation, route }) => {
   };
 
   const handleSuccessContinue = () => {
-    setSuccessSheetVisible(false);
-    // Navigate back to previous screen
-    if (navigation?.canGoBack()) {
-      navigation.goBack();
+    try {
+      setSuccessSheetVisible(false);
+      // Navigate back to previous screen
+      if (navigation?.canGoBack && navigation.canGoBack()) {
+        navigation.goBack();
+      } else if (navigation?.goBack) {
+        navigation.goBack();
+      }
+    } catch (error) {
+      console.error('Error navigating back after success:', error);
     }
   };
 
@@ -124,6 +154,12 @@ const AddReviewScreen = ({ navigation, route }) => {
   );
 
   const formattedRating = rating > 0 ? rating.toFixed(1) : '0.0';
+
+  // Safety check: ensure navigation is available before rendering
+  if (!navigation) {
+    console.error('AddReviewScreen: navigation prop is required but missing');
+    return null;
+  }
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top', 'bottom']}>

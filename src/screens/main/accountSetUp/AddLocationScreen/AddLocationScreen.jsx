@@ -134,7 +134,14 @@ const AddLocationScreen = ({ navigation }) => {
 
         <View style={styles.progressWrapper}>
           <View style={styles.progressTrack}>
-            <View style={styles.progressFill} />
+            <LinearGradient
+              colors={['#8BC83F', '#234F68']}
+              start={{ x: 0, y: -0.1628 }}
+              end={{ x: 1.1628, y: 0.9831 }}
+              style={styles.progressFillGradient}
+            >
+              <View style={styles.progressFill} />
+            </LinearGradient>
           </View>
         </View>
 
@@ -256,7 +263,10 @@ const styles = StyleSheet.create({
     bottom: verticalScale(-0),
     width: '100%',
     height: verticalScale(50),
-    borderRadius: 15,
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0,
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -265,8 +275,10 @@ const styles = StyleSheet.create({
     height: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 15,
-
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0,
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
   },
   mapFooterText: {
     fontFamily: 'Lato',
@@ -337,10 +349,19 @@ const styles = StyleSheet.create({
     backgroundColor: '#E6E0FF',
     overflow: 'hidden',
   },
-  progressFill: {
+  progressFillGradient: {
     width: scale(90),
-    height: '100%',
-    backgroundColor: '#1F4C6B',
+    height: verticalScale(10),
+    borderRadius: verticalScale(5),
+    padding: 3,
+    justifyContent: 'center',
+    alignItems: 'stretch',
+  },
+  progressFill: {
+    width: '100%',
+    flex: 1,
+    borderRadius: verticalScale(2),
+    backgroundColor: 'transparent',
   },
   NextButton: {
     width: scale(278),

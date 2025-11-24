@@ -125,12 +125,11 @@ const FilterBottomSheet = ({ visible, onClose, onApplyFilter }) => {
 										<View style={styles.mapPinBase} />
 									</View>
 								</View>
+								{/* Apply Filter Button - Overlay on Map */}
+								<TouchableOpacity style={styles.applyButtonOverlay} onPress={handleApplyFilter} activeOpacity={0.8}>
+									<Text style={styles.applyButtonText}>Apply Filter</Text>
+								</TouchableOpacity>
 							</View>
-
-							{/* Apply Filter Button */}
-							<TouchableOpacity style={styles.applyButton} onPress={handleApplyFilter} activeOpacity={0.8}>
-								<Text style={styles.applyButtonText}>Apply Filter</Text>
-							</TouchableOpacity>
 						</View>
 					</Pressable>
 				</View>
@@ -229,13 +228,17 @@ const styles = StyleSheet.create({
 		color: '#ffffff',
 	},
 	locationInputContainer: {
+		width: 327,
+		height: 70,
 		flexDirection: 'row',
 		alignItems: 'center',
 		backgroundColor: '#F5F4F8',
-		borderRadius: 15,
+		borderRadius: 20,
 		paddingHorizontal: 16,
 		paddingVertical: 14,
 		gap: 12,
+		opacity: 1,
+		alignSelf: 'center',
 	},
 	locationIcon: {
 		width: 20,
@@ -255,11 +258,16 @@ const styles = StyleSheet.create({
 		tintColor: '#21628A',
 	},
 	mapContainer: {
+		width: 327,
 		height: 200,
-		borderRadius: 15,
+		borderRadius: 25,
 		overflow: 'hidden',
+		marginTop: 30,
 		marginBottom: 24,
 		backgroundColor: '#E8E8E8',
+		position: 'relative',
+		opacity: 1,
+		alignSelf: 'center',
 	},
 	mapPlaceholder: {
 		flex: 1,
@@ -274,17 +282,17 @@ const styles = StyleSheet.create({
 	},
 	mapPinContainer: {
 		position: 'absolute',
-		top: '40%',
+		top: '25%',
 		left: '50%',
-		marginLeft: -15,
+		marginLeft: -12,
 		alignItems: 'center',
 	},
 	mapPinCircle: {
-		width: 50,
-		height: 50,
-		borderRadius: 25,
+		width: 40,
+		height: 40,
+		borderRadius: 20,
 		backgroundColor: '#ffffff',
-		borderWidth: 3,
+		borderWidth: 2.5,
 		borderColor: '#21628A',
 		justifyContent: 'center',
 		alignItems: 'center',
@@ -298,14 +306,14 @@ const styles = StyleSheet.create({
 		backgroundColor: '#E3F2FD',
 	},
 	mapPinProfileText: {
-		fontSize: 24,
+		fontSize: 18,
 	},
 	mapPinBase: {
 		width: 0,
 		height: 0,
-		borderLeftWidth: 8,
-		borderRightWidth: 8,
-		borderTopWidth: 12,
+		borderLeftWidth: 6,
+		borderRightWidth: 6,
+		borderTopWidth: 10,
 		borderLeftColor: 'transparent',
 		borderRightColor: 'transparent',
 		borderTopColor: '#21628A',
@@ -317,6 +325,18 @@ const styles = StyleSheet.create({
 		borderRadius: 12,
 		alignItems: 'center',
 		justifyContent: 'center',
+	},
+	applyButtonOverlay: {
+		position: 'absolute',
+		top: 116,
+		left: 25,
+		width: 278,
+		height: 63,
+		backgroundColor: '#E63946',
+		borderRadius: 10,
+		alignItems: 'center',
+		justifyContent: 'center',
+		opacity: 1,
 	},
 	applyButtonText: {
 		color: '#ffffff',

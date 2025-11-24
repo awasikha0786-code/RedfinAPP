@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, TouchableOpacity, Text, Image, TextInput } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import LocationDetailBottomSheet from '../../../../components/common/buttomSheet/LocationDetailBottomSheet';
+
 
 // Try to import react-native-maps with error handling
 let MapView, Marker;
@@ -118,13 +118,29 @@ const LocationDetailScreen = ({ navigation, route }) => {
 					<Text style={styles.placeholderText}>Map view not available</Text>
 				</View>
 
-				{/* Location Detail Bottom Sheet */}
-				<LocationDetailBottomSheet
-					visible={true}
-					onClose={() => {}}
-					onChooseLine={handleChooseLine}
-					address={address}
-				/>
+				{/* Floating Location Detail Card */}
+				<View style={styles.floatingCard}>
+					<View style={styles.cardContent}>
+						<View style={styles.locationIconWrapper}>
+							<Image
+								source={require('../../../../assets/icons/Location.png')}
+								style={styles.cardLocationIcon}
+								resizeMode="contain"
+							/>
+						</View>
+						<View style={styles.cardTextContainer}>
+							<Text style={styles.cardTitle}>Location detail</Text>
+							<Text style={styles.cardAddress} numberOfLines={2}>
+								{address || 'Jl. Pandanaran, Semarang Tengah, Semarang City, Central Java 50241'}
+							</Text>
+						</View>
+					</View>
+				</View>
+
+				{/* Floating Choose Line Button */}
+				<TouchableOpacity style={styles.floatingButton} onPress={handleChooseLine} activeOpacity={0.8}>
+					<Text style={styles.buttonText}>CHOOSE LINE</Text>
+				</TouchableOpacity>
 			</SafeAreaView>
 		);
 	}
@@ -175,7 +191,7 @@ const LocationDetailScreen = ({ navigation, route }) => {
 				</View>
 			</View>
 
-			{/* Map View */}
+			{/* Full Screen Map View */}
 			<View style={styles.mapContainer}>
 				<MapView
 					provider={MapView.PROVIDER_GOOGLE}
@@ -217,20 +233,36 @@ const LocationDetailScreen = ({ navigation, route }) => {
 					activeOpacity={0.8}
 				>
 					<Image
-						source={require('../../../../assets/icons/Location.png')}
+						source={require('../../../../assets/icons/Center Location.png')}
 						style={styles.currentLocationIcon}
 						resizeMode="contain"
 					/>
 				</TouchableOpacity>
 			</View>
 
-			{/* Location Detail Bottom Sheet */}
-			<LocationDetailBottomSheet
-				visible={true}
-				onClose={() => {}}
-				onChooseLine={handleChooseLine}
-				address={address}
-			/>
+			{/* Floating Location Detail Card */}
+			<View style={styles.floatingCard}>
+				<Text style={styles.cardTitle}>Location detail</Text>
+				<View style={styles.cardContent}>
+					<View style={styles.locationIconWrapper}>
+						<Image
+							source={require('../../../../assets/icons/Location.png')}
+							style={styles.cardLocationIcon}
+							resizeMode="contain"
+						/>
+					</View>
+					<View style={styles.cardTextContainer}>
+						<Text style={styles.cardAddress} numberOfLines={2}>
+							{address || 'Jl. Pandanaran, Semarang Tengah, Semarang City, Central Java 50241'}
+						</Text>
+					</View>
+				</View>
+			</View>
+
+			{/* Floating Choose Line Button */}
+			<TouchableOpacity style={styles.floatingButton} onPress={handleChooseLine} activeOpacity={0.8}>
+				<Text style={styles.buttonText}>CHOOSE LINE</Text>
+			</TouchableOpacity>
 		</SafeAreaView>
 	);
 };
@@ -238,7 +270,7 @@ const LocationDetailScreen = ({ navigation, route }) => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: '#ffffff',
+		backgroundColor: 'rgba(9, 53, 82, 0.69)',
 	},
 	headerContainer: {
 		position: 'absolute',
@@ -313,12 +345,13 @@ const styles = StyleSheet.create({
 		marginLeft: 12,
 	},
 	mapContainer: {
-		flex: 1,
-		width: '100%',
-		height: '100%',
+		position: 'absolute',
+		top: 0,
+		left: 0,
+		right: 0,
+		bottom: 0,
 	},
 	map: {
-		flex: 1,
 		width: '100%',
 		height: '100%',
 	},
@@ -377,7 +410,7 @@ const styles = StyleSheet.create({
 	},
 	currentLocationButton: {
 		position: 'absolute',
-		bottom: 200,
+		bottom: 280,
 		right: 20,
 		width: 50,
 		height: 50,
@@ -396,6 +429,92 @@ const styles = StyleSheet.create({
 		width: 24,
 		height: 24,
 		tintColor: '#ffffff',
+	},
+	floatingCard: {
+		position: 'absolute',
+		bottom: 100,
+		left: '50%',
+		marginLeft: -163.5,
+		width: 327,
+		height: 133,
+		backgroundColor: '#FFFFFF',
+		borderRadius: 25,
+		padding: 20,
+		opacity: 1,
+		shadowColor: '#000',
+		shadowOffset: {
+			width: 0,
+			height: 4,
+		},
+		shadowOpacity: 0.1,
+		shadowRadius: 12,
+		elevation: 8,
+		zIndex: 1000,
+	},
+	cardContent: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		gap: 10,
+		marginTop: 12,
+	},
+	locationIconWrapper: {
+		width: 48,
+		height: 48,
+		borderRadius: 24,
+		backgroundColor: '#ECEDF3',
+		borderWidth: 0,
+		justifyContent: 'center',
+		alignItems: 'center',
+		marginTop: 0,
+	},
+	cardLocationIcon: {
+		width: 24,
+		height: 24,
+		tintColor: '#FFFFFF',
+	},
+	cardTextContainer: {
+		flex: 1,
+		justifyContent: 'center',
+	},
+	cardTitle: {
+		fontSize: 20,
+		fontWeight: '700',
+		color: '#14233A',
+		marginTop: 0,
+		marginBottom: 0,
+		alignSelf: 'flex-start',
+	},
+	cardAddress: {
+		fontSize: 14,
+		fontWeight: '400',
+		color: '#6C7380',
+		lineHeight: 20,
+	},
+	floatingButton: {
+		position: 'absolute',
+		bottom: 30,
+		left: 20,
+		right: 20,
+		backgroundColor: '#E63946',
+		borderRadius: 15,
+		paddingVertical: 18,
+		alignItems: 'center',
+		justifyContent: 'center',
+		shadowColor: '#E63946',
+		shadowOffset: {
+			width: 0,
+			height: 6,
+		},
+		shadowOpacity: 0.3,
+		shadowRadius: 12,
+		elevation: 8,
+		zIndex: 1001,
+	},
+	buttonText: {
+		color: '#FFFFFF',
+		fontSize: 16,
+		fontWeight: '700',
+		letterSpacing: 0.5,
 	},
 });
 

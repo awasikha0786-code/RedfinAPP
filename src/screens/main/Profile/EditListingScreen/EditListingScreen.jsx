@@ -414,7 +414,7 @@ const EditListingScreen = ({ navigation, route }) => {
               key={type}
               label={type}
               selected={listingType === type}
-              onPress={() => setListingType(type)}
+              onPress={() => setListingType(listingType === type ? '' : type)}
               style={[
                 styles.pillWrapper,
                 index !== LISTING_TYPES.length - 1 && styles.pillWrapperSpacing,
@@ -435,7 +435,7 @@ const EditListingScreen = ({ navigation, route }) => {
                 key={category}
                 label={category}
                 selected={propertyCategory === category}
-                onPress={() => setPropertyCategory(category)}
+                onPress={() => setPropertyCategory(propertyCategory === category ? '' : category)}
                 style={[
                   styles.categoryPillWrapper,
                   index !== 1 && styles.categoryPillSpacing,
@@ -453,7 +453,7 @@ const EditListingScreen = ({ navigation, route }) => {
                 key={category}
                 label={category}
                 selected={propertyCategory === category}
-                onPress={() => setPropertyCategory(category)}
+                onPress={() => setPropertyCategory(propertyCategory === category ? '' : category)}
                 style={[
                   styles.categoryPillWrapper,
                   index !== PROPERTY_CATEGORIES.slice(2).length - 1 && styles.categoryPillSpacing,
@@ -890,10 +890,9 @@ const styles = StyleSheet.create({
     borderRadius: moderateScale(20),
     paddingHorizontal: moderateScale(24),
     justifyContent: 'center',
-    backgroundColor: '#F1F5F9',
   },
   pillSelected: {
-    backgroundColor: '#17455C',
+    backgroundColor: '#234F68',
   },
   pillLabel: {
     fontSize: moderateScale(16),
@@ -921,10 +920,9 @@ const styles = StyleSheet.create({
     borderRadius: moderateScale(20),
     paddingHorizontal: moderateScale(24),
     justifyContent: 'center',
-    backgroundColor: '#F5F7FB',
   },
   categoryPillSelected: {
-    backgroundColor: '#17455C',
+    backgroundColor: '#234F68',
   },
   categoryPillLabel: {
     fontSize: moderateScale(15),

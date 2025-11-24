@@ -169,13 +169,13 @@ const AccountInfoScreen = ({ navigation }) => {
         renderIcon={() => (
           <View style={styles.successIconWrapper}>
             <LinearGradient
-              colors={['rgba(139, 200, 63, 0.25)', 'rgba(35, 79, 104, 0.05)']}
+              colors={['rgba(139, 200, 63, 0.3)', 'rgba(45, 122, 79, 0.15)']}
               style={styles.successGlow}
             >
               <LinearGradient
-                colors={['#234F68', '#8BC83F']}
+                colors={['#2D7A4F', '#8BC83F']}
                 start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
+                end={{ x: 0, y: 1 }}
                 style={styles.successIconInner}
               >
                 <RNText style={styles.successCheck}>✓</RNText>
@@ -370,9 +370,9 @@ const styles = StyleSheet.create({
     borderRadius: scale(80),
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: 'rgba(35, 79, 104, 0.25)',
-    shadowOffset: { width: 0, height: 12 },
-    shadowOpacity: 0.4,
+    shadowColor: 'rgba(139, 200, 63, 0.4)',
+    shadowOffset: { width: 15, height: 0 },
+    shadowOpacity: 0.5,
     shadowRadius: 24,
     elevation: 12,
   },

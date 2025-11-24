@@ -57,7 +57,7 @@ const TransactionPropertyCard = ({ property, onPress, onFavoritePress, isFavorit
 const styles = StyleSheet.create({
   card: {
     width: '48%',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#F8F8F8',
     borderRadius: 20,
     overflow: 'hidden',
     marginBottom: 16,
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: 16,
-    backgroundColor: '#E63946',
+    backgroundColor: '#FFFFFF',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
   heartIcon: {
     width: 16,
     height: 16,
-    tintColor: '#FFFFFF',
+    tintColor: '#14233A',
   },
   propertyTag: {
     position: 'absolute',

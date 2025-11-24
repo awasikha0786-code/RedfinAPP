@@ -53,11 +53,6 @@ const AddListingPhotosScreen = ({ navigation, route }) => {
   };
 
   const handleAddPhoto = () => {
-    if (photos.length >= MAX_PHOTOS) {
-      Alert.alert('Limit reached', `You can upload up to ${MAX_PHOTOS} photos.`);
-      return;
-    }
-
     launchImageLibrary(
       {
         mediaType: 'photo',
@@ -101,13 +96,8 @@ const AddListingPhotosScreen = ({ navigation, route }) => {
       <ScreenHeader onBackPress={handleBack} title="Add Listing" />
 
       <View style={styles.content}>
-        <Text style={styles.introText}>
-          Almost finish complete
-          {'\n'}
-          the listing
-        </Text>
         <Text style={styles.heading}>
-          Add <Text style={styles.headingAccent}>photos</Text> to your listing
+          Add <Text style={styles.headingAccent}>photos</Text> to your{'\n'}listing
         </Text>
 
         <View style={styles.photosGrid}>
@@ -130,7 +120,7 @@ const AddListingPhotosScreen = ({ navigation, route }) => {
                 </View>
               );
             })}
-            {photos.length < 3 && photos.length < MAX_PHOTOS && (
+            {photos.length < 3 && (
               <TouchableOpacity
                 style={styles.addPhotoButton}
                 onPress={handleAddPhoto}
@@ -142,7 +132,7 @@ const AddListingPhotosScreen = ({ navigation, route }) => {
           </View>
 
           <View style={styles.photosRow}>
-            {photos.slice(3, MAX_PHOTOS).map((photo, index) => {
+            {photos.slice(3).slice(0, 3).map((photo, index) => {
               const imageSource = photo.source ? photo.source : { uri: photo.uri };
 
               return (
@@ -164,7 +154,7 @@ const AddListingPhotosScreen = ({ navigation, route }) => {
               );
             })}
 
-            {photos.length >= 3 && photos.length < MAX_PHOTOS && (
+            {photos.length >= 3 && photos.slice(3).length < 3 && (
               <TouchableOpacity
                 style={styles.addPhotoButton}
                 onPress={handleAddPhoto}
@@ -174,9 +164,71 @@ const AddListingPhotosScreen = ({ navigation, route }) => {
               </TouchableOpacity>
             )}
           </View>
+          
+          {/* Additional rows for photos beyond 6 */}
+          {photos.length > 6 && (
+            <>
+              {Array.from({ length: Math.ceil((photos.length - 6) / 3) }).map((_, rowIndex) => {
+                const startIndex = 6 + rowIndex * 3;
+                const rowPhotos = photos.slice(startIndex, startIndex + 3);
+                
+                return (
+                  <View key={`row-${rowIndex}`} style={styles.photosRow}>
+                    {rowPhotos.map((photo, index) => {
+                      const imageSource = photo.source ? photo.source : { uri: photo.uri };
+                      const actualIndex = startIndex + index;
+
+                      return (
+                        <View
+                          key={photo.id || `${photo.uri}-${actualIndex}`}
+                          style={styles.photoWrapper}
+                        >
+                          <Image source={imageSource} style={styles.photoImage} resizeMode="cover" />
+                          <TouchableOpacity
+                            style={styles.photoRemoveButton}
+                            onPress={() => handleRemovePhoto(actualIndex)}
+                            activeOpacity={0.8}
+                          >
+                            <View style={styles.removeIconCircle}>
+                              <Text style={styles.removeIconText}>×</Text>
+                            </View>
+                          </TouchableOpacity>
+                        </View>
+                      );
+                    })}
+                    
+                    {rowPhotos.length < 3 && (
+                      <TouchableOpacity
+                        style={styles.addPhotoButton}
+                        onPress={handleAddPhoto}
+                        activeOpacity={0.8}
+                      >
+                        <Text style={styles.addPhotoPlus}>+</Text>
+                      </TouchableOpacity>
+                    )}
+                  </View>
+                );
+              })}
+            </>
+          )}
+          
+          {/* Show plus button in new row if last row is full */}
+          {photos.length >= 6 && photos.length % 3 === 0 && (
+            <View style={styles.photosRow}>
+              <TouchableOpacity
+                style={styles.addPhotoButton}
+                onPress={handleAddPhoto}
+                activeOpacity={0.8}
+              >
+                <Text style={styles.addPhotoPlus}>+</Text>
+              </TouchableOpacity>
+            </View>
+          )}
         </View>
 
-        <Text style={styles.helperText}>Upload at least 6 photos to continue.</Text>
+        {photos.length < MAX_PHOTOS && (
+          <Text style={styles.helperText}>Upload at least 6 photos to continue.</Text>
+        )}
       </View>
 
       <View style={styles.bottomBar}>
@@ -212,23 +264,25 @@ const styles = StyleSheet.create({
     paddingHorizontal: GRID_HORIZONTAL_PADDING,
     paddingTop: verticalScale(24),
   },
-  introText: {
-    fontSize: moderateScale(25),
-    fontWeight: '800',
-    color: '#14233A',
-    lineHeight: verticalScale(40),
-    letterSpacing: scale(0.75),
-    marginBottom: verticalScale(12),
-  },
   heading: {
-    fontSize: moderateScale(26),
-    fontWeight: '600',
-    color: '#14233A',
+    width: 234,
+    height: 80,
+    fontFamily: 'Lato',
+    fontWeight: '500',
+    fontSize: 25,
+    lineHeight: 40,
+    letterSpacing: 25 * 0.03,
+    color: '#252B5C',
+    opacity: 1,
     marginBottom: verticalScale(24),
   },
   headingAccent: {
-    color: '#17455C',
-    fontWeight: '700',
+    fontFamily: 'Lato',
+    fontWeight: '800',
+    fontSize: 25,
+    lineHeight: 40,
+    letterSpacing: 25 * 0.03,
+    color: '#252B5C',
   },
   photosGrid: {
     rowGap: verticalScale(16),
@@ -269,14 +323,16 @@ const styles = StyleSheet.create({
     lineHeight: moderateScale(18),
   },
   addPhotoButton: {
-    width: PHOTO_SIZE,
-    aspectRatio: 1,
+    width: 78,
+    height: 78,
     borderRadius: moderateScale(20),
-    borderWidth: 1,
-    borderStyle: 'dashed',
-    borderColor: '#B7C2D6',
+    backgroundColor: '#F5F4F8',
+    opacity: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  addPhotoButtonDisabled: {
+    opacity: 0.5,
   },
   addPhotoPlus: {
     fontSize: moderateScale(32),
@@ -284,11 +340,22 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     lineHeight: moderateScale(36),
   },
+  addPhotoPlusDisabled: {
+    color: '#9AA4B2',
+  },
   helperText: {
-    fontSize: moderateScale(12),
-    color: '#E35555',
+    width: 271,
+    height: 20,
+    fontFamily: 'Lato',
+    fontWeight: '400',
+    fontSize: 12,
+    lineHeight: 20,
+    letterSpacing: 12 * 0.03,
     textAlign: 'center',
-    letterSpacing: 0.36,
+    color: '#E35555',
+    opacity: 1,
+    alignSelf: 'center',
+    marginTop: verticalScale(212),
   },
   bottomBar: {
     flexDirection: 'row',

@@ -194,44 +194,46 @@ const NotificationScreen = ({ navigation }) => {
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Today</Text>
             {todayNotifications.map((notification) => (
-              <Swipeable
-                key={notification.id}
-                renderRightActions={() => renderRightAction(() => handleDeleteNotification(notification.id, 'today'))}
-                overshootRight={false}
-              >
-                <NotificationCard
-                  profileImage={notification.profileImage}
-                  name={notification.name}
-                  message={notification.message}
-                  boldParts={notification.boldParts}
-                  timestamp={notification.timestamp}
-                  propertyImage={notification.propertyImage}
-                />
-              </Swipeable>
+              <View key={notification.id} style={styles.cardWrapper}>
+                <Swipeable
+                  renderRightActions={() => renderRightAction(() => handleDeleteNotification(notification.id, 'today'))}
+                  overshootRight={false}
+                >
+                  <NotificationCard
+                    profileImage={notification.profileImage}
+                    name={notification.name}
+                    message={notification.message}
+                    boldParts={notification.boldParts}
+                    timestamp={notification.timestamp}
+                    propertyImage={notification.propertyImage}
+                  />
+                </Swipeable>
+              </View>
             ))}
           </View>
         ) : (
           <View style={styles.section}>
             <Text style={styles.title}>All chats</Text>
             {chats.map((c) => (
-              <Swipeable
-                key={c.id}
-                renderRightActions={() => renderRightAction(() => handleDeleteChat(c.id))}
-                overshootRight={false}
-              >
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  onPress={() => navigation.navigate('Chat', { name: c.name, profileImage: c.profileImage })}
+              <View key={c.id} style={styles.cardWrapper}>
+                <Swipeable
+                  renderRightActions={() => renderRightAction(() => handleDeleteChat(c.id))}
+                  overshootRight={false}
                 >
-                  <NotificationCard
-                    profileImage={c.profileImage}
-                    name={c.name}
-                    message={c.message}
-                    boldParts={c.boldParts}
-                    timestamp={c.timestamp}
-                  />
-                </TouchableOpacity>
-              </Swipeable>
+                  <TouchableOpacity
+                    activeOpacity={0.8}
+                    onPress={() => navigation.navigate('Chat', { name: c.name, profileImage: c.profileImage })}
+                  >
+                    <NotificationCard
+                      profileImage={c.profileImage}
+                      name={c.name}
+                      message={c.message}
+                      boldParts={c.boldParts}
+                      timestamp={c.timestamp}
+                    />
+                  </TouchableOpacity>
+                </Swipeable>
+              </View>
             ))}
           </View>
         )}
@@ -240,20 +242,21 @@ const NotificationScreen = ({ navigation }) => {
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Older notifications</Text>
             {olderNotifications.map((notification) => (
-              <Swipeable
-                key={notification.id}
-                renderRightActions={() => renderRightAction(() => handleDeleteNotification(notification.id, 'older'))}
-                overshootRight={false}
-              >
-                <NotificationCard
-                  profileImage={notification.profileImage}
-                  name={notification.name}
-                  message={notification.message}
-                  boldParts={notification.boldParts}
-                  timestamp={notification.timestamp}
-                  propertyImage={notification.propertyImage}
-                />
-              </Swipeable>
+              <View key={notification.id} style={styles.cardWrapper}>
+                <Swipeable
+                  renderRightActions={() => renderRightAction(() => handleDeleteNotification(notification.id, 'older'))}
+                  overshootRight={false}
+                >
+                  <NotificationCard
+                    profileImage={notification.profileImage}
+                    name={notification.name}
+                    message={notification.message}
+                    boldParts={notification.boldParts}
+                    timestamp={notification.timestamp}
+                    propertyImage={notification.propertyImage}
+                  />
+                </Swipeable>
+              </View>
             ))}
           </View>
         ) : null}
@@ -317,23 +320,23 @@ const styles = StyleSheet.create({
     tintColor: '#14233A',
   },
   swipeActionContainer: {
-    height: '100%',
+    height: 109,
     justifyContent: 'center',
     alignItems: 'flex-end',
   },
   swipeActionButton: {
-    width: 72,
-    height: '85%',
+    width: 100,
+    height: 109,
     backgroundColor: '#1B516B',
-    borderTopRightRadius: 12,
-    borderBottomRightRadius: 12,
+    borderTopRightRadius: 25,
+    borderBottomRightRadius: 25,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 12,
+    opacity: 1,
   },
   swipeTrashIcon: {
-    width: 18,
-    height: 18,
+    width: 20,
+    height: 20,
     tintColor: '#FFFFFF',
   },
   filterContainer: {
@@ -344,6 +347,7 @@ const styles = StyleSheet.create({
   section: {
     paddingHorizontal: 20,
     marginTop: 20,
+    alignItems: 'center',
   },
   sectionTitle: {
     fontSize: 18,
@@ -356,6 +360,10 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     color: '#14233A',
     marginBottom: 16,
+  },
+  cardWrapper: {
+    alignItems: 'flex-start',
+    width: '100%',
   },
 });
 

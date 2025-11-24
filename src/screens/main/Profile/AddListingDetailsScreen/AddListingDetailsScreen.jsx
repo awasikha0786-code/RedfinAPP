@@ -3,7 +3,7 @@ import ListingDetailsForm from '../../../../components/main/profile/ListingDetai
 
 const AddListingDetailsScreen = ({ navigation, route }) => {
   const latestValuesRef = useRef({});
-
+  
   const initialValues = useMemo(
     () => ({
       sellPrice: route?.params?.sellPrice,

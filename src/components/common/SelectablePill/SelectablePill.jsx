@@ -21,17 +21,17 @@ const SelectablePill = ({
       <View
         style={[
           styles.pill,
+          contentStyle,
           selected && styles.pillSelected,
           selected && selectedStyle,
-          contentStyle,
         ]}
       >
         <Text
           style={[
             styles.label,
+            textStyle,
             selected && styles.labelSelected,
             selected && selectedTextStyle,
-            textStyle,
           ]}
         >
           {label}

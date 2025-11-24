@@ -15,11 +15,11 @@ const ChatInput = ({ value, onChangeText, onSendPress }) => {
         onSubmitEditing={onSendPress}
       />
     <TouchableOpacity style={styles.sendButton} onPress={onSendPress} activeOpacity={0.8}>
-  <Image
-    source={require('../../../../../assets/icons/send.png')}
-    style={{ width: 24, height: 24 }}
-  />
-</TouchableOpacity>
+      <Image
+        source={require('../../../../../assets/icons/send.png')}
+        style={styles.sendIcon}
+      />
+    </TouchableOpacity>
 
     </View>
   );
@@ -30,8 +30,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#FFFFFF',
+    width: 327,
+    height: 70,
+    borderRadius: 100,
+    opacity: 1,
     margin: 16,
-    borderRadius: 28,
     paddingHorizontal: 16,
     paddingVertical: 12,
     shadowColor: '#000',
@@ -51,23 +54,18 @@ const styles = StyleSheet.create({
     color: '#14233A',
   },
   sendButton: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
     backgroundColor: '#E53935',
     justifyContent: 'center',
     alignItems: 'center',
+    opacity: 1,
   },
   sendIcon: {
-    width: 0,
-    height: 0,
-    borderLeftWidth: 0,
-    borderRightWidth: 12,
-    borderBottomWidth: 16,
-    borderLeftColor: 'transparent',
-    borderRightColor: 'transparent',
-    borderBottomColor: '#FFFFFF',
-    transform: [{ rotate: '-90deg' }],
+    width: 20,
+    height: 20,
+    opacity: 1,
   },
 });
 

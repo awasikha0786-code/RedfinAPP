@@ -152,7 +152,17 @@ const TransactionDetailScreen = ({ navigation, route }) => {
           <TouchableOpacity
             style={styles.reviewButton}
             activeOpacity={0.9}
-            onPress={() => navigation.navigate('AddReview', { transaction })}
+            onPress={() => {
+              try {
+                if (navigation && navigation.navigate) {
+                  navigation.navigate('AddReview', { transaction });
+                } else {
+                  console.error('Navigation object is not available');
+                }
+              } catch (error) {
+                console.error('Error navigating to AddReview:', error);
+              }
+            }}
           >
             <RNText style={styles.reviewButtonText}>Click here to add review</RNText>
           </TouchableOpacity>

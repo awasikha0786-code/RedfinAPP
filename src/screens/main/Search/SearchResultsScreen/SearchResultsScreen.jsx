@@ -13,6 +13,7 @@ const SearchResultsScreen = ({ navigation, route }) => {
 	const initialSearchQuery = route?.params?.searchQuery || 'Modern House';
 	const propertyTypeFilter = route?.params?.propertyType;
 	const [searchQuery, setSearchQuery] = useState(initialSearchQuery);
+	const [viewMode, setViewMode] = useState('grid');
 
 	// Sample property data with coordinates
 	const allProperties = [
@@ -187,43 +188,46 @@ const SearchResultsScreen = ({ navigation, route }) => {
 				<Text style={styles.resultsText}>
 					Found <Text style={styles.resultsNumber}>{filteredProperties.length}</Text> estates
 				</Text>
-				{hasResults && (
-					<View style={styles.viewToggleContainer}>
-						<TouchableOpacity
-							style={[
-								styles.viewButton,
-								styles.viewButtonLeft,
-								styles.activeViewButton
-							]}
-							activeOpacity={0.7}
-						>
-							<View style={styles.gridIconContainer}>
-								<View style={styles.gridRow}>
-									<View style={[styles.gridCell, styles.activeGridCell]} />
-									<View style={[styles.gridCell, styles.activeGridCell]} />
-								</View>
-								<View style={[styles.gridRow, { marginTop: 2 }]}>
-									<View style={[styles.gridCell, styles.activeGridCell]} />
-									<View style={[styles.gridCell, styles.activeGridCell]} />
-								</View>
+				<View style={styles.viewToggleContainer}>
+					<TouchableOpacity
+						style={[
+							styles.viewButton,
+							styles.viewButtonLeft,
+							viewMode === 'grid' && styles.activeViewButton
+						]}
+						onPress={() => setViewMode('grid')}
+						activeOpacity={0.7}
+					>
+						<View style={styles.gridIconContainer}>
+							<View style={styles.gridRow}>
+								<View style={[styles.gridCell, viewMode === 'grid' && styles.activeGridCell]} />
+								<View style={[styles.gridCell, viewMode === 'grid' && styles.activeGridCell]} />
 							</View>
-						</TouchableOpacity>
-						<TouchableOpacity
-							style={[
-								styles.viewButton,
-								styles.viewButtonRight
-							]}
-							onPress={handleMapPress}
-							activeOpacity={0.7}
-						>
-							<Image
-								source={require('../../../../assets/icons/Location.png')}
-								style={styles.listIcon}
-								resizeMode="contain"
-							/>
-						</TouchableOpacity>
-					</View>
-				)}
+							<View style={[styles.gridRow, { marginTop: 2 }]}>
+								<View style={[styles.gridCell, viewMode === 'grid' && styles.activeGridCell]} />
+								<View style={[styles.gridCell, viewMode === 'grid' && styles.activeGridCell]} />
+							</View>
+						</View>
+					</TouchableOpacity>
+					<TouchableOpacity
+						style={[
+							styles.viewButton,
+							styles.viewButtonRight,
+							viewMode === 'list' && styles.activeViewButton
+						]}
+						onPress={() => {
+							setViewMode('list');
+							handleMapPress();
+						}}
+						activeOpacity={0.7}
+					>
+						<Image
+							source={require('../../../../assets/icons/Location.png')}
+							style={[styles.listIcon, viewMode === 'list' && styles.activeListIcon]}
+							resizeMode="contain"
+						/>
+					</TouchableOpacity>
+				</View>
 			</View>
 
 			{/* Show List View or Empty State */}
@@ -452,26 +456,41 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		backgroundColor: '#F5F4F8',
-		borderRadius: 8,
+		borderRadius: 100,
+		width: 93,
+		height: 40,
+		opacity: 1,
+		padding: scale(8),
+		gap: 10,
 		overflow: 'hidden',
 	},
 	viewButton: {
 		width: 36,
-		height: 36,
+		height: 24,
 		justifyContent: 'center',
 		alignItems: 'center',
 		backgroundColor: 'transparent',
+		borderRadius: 100,
+		opacity: 1,
 	},
 	viewButtonLeft: {
-		borderTopLeftRadius: 8,
-		borderBottomLeftRadius: 8,
+		borderTopLeftRadius: scale(100),
+		borderBottomLeftRadius: scale(100),
 	},
 	viewButtonRight: {
-		borderTopRightRadius: 8,
-		borderBottomRightRadius: 8,
+		borderTopRightRadius: scale(100),
+		borderBottomRightRadius: scale(100),
 	},
 	activeViewButton: {
-		backgroundColor: '#21628A',
+		backgroundColor: '#FFFFFF',
+		shadowColor: '#000',
+		shadowOffset: {
+			width: 0,
+			height: 2,
+		},
+		shadowOpacity: 0.15,
+		shadowRadius: 4,
+		elevation: 4,
 	},
 	gridIconContainer: {
 		width: 16,
@@ -490,12 +509,15 @@ const styles = StyleSheet.create({
 		marginRight: 2,
 	},
 	activeGridCell: {
-		backgroundColor: '#ffffff',
+		backgroundColor: '#21628A',
 	},
 	listIcon: {
 		width: 16,
 		height: 16,
 		tintColor: '#6C7380',
+	},
+	activeListIcon: {
+		tintColor: '#21628A',
 	},
 	horizontalScrollContent: {
 		paddingHorizontal: Math.max(20, SCREEN_WIDTH * 0.05), // Responsive padding

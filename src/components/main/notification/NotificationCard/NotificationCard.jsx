@@ -72,10 +72,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#F5F4F8',
     width: 327,
-    height: 108,
+    height: 109,
     borderRadius: 25,
     opacity: 1,
-    padding: 12,
+    padding: 10,
     marginBottom: 12,
     alignItems: 'flex-start',
   },
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 24,
-    marginRight: 12,
+    marginRight: 10,
   },
   content: {
     flex: 1,
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 8,
-    marginLeft: 12,
+    marginLeft: 10,
   },
 });
 
